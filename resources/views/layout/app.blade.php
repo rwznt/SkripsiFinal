@@ -121,7 +121,7 @@
                     @if (Auth::user()->level == 'member')
                         <ul class="navbar-nav ms-auto mydrop">
                             <li class="nav-item {{ Request()->is('create') ? 'active' : '' }}">
-                                <a class="nav-link bi bi-heart-fill" href="{{url('')}}">Interaction</a>
+                                <a class="nav-link bi" href="{{url('latest')}}">Latest Article</a>
                             </li>
                             <li class="nav-item {{ Request()->is('create') ? 'active' : '' }}">
                                 <a class="nav-link bi bi-pen" href="{{route('create')}}">Create</a>

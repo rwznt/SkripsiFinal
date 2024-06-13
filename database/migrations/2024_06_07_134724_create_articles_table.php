@@ -15,23 +15,22 @@ return new class extends Migration
     {
         Schema::create('articles', function (Blueprint $table) {
             $table->id();
-            $table->integer('category_id')->nullable();
-            $table->integer('user_id')->nullable();
-            $table->string('title')->nullable();
-            $table->string('title_slug')->nullable();
-            $table->string('image')->nullable();
-            $table->text('content')->nullable();
+            $table->foreignId('category_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('title');
+            $table->string('title_slug')->unique();
+            $table->text('content');
             $table->text('tags')->nullable();
-            $table->integer('breaking_news')->nullable();
-            $table->integer('top_slider')->nullable();
-            $table->integer('first_section_three')->nullable();
-            $table->integer('first_section_nine')->nullable();
-            $table->string('post_date')->nullable();
-            $table->string('post_month')->nullable();
-            $table->integer('status')->default(1)->nullable();
-            $table->integer('view_count')->default(0)->nullable();
-            $table->integer('trust_factor')->nullable();
-            $table->boolean('reviewed')->default('0');
+            $table->boolean('breaking_news')->default(false);
+            $table->boolean('top_slider')->default(false);
+            $table->boolean('first_section_three')->default(false);
+            $table->boolean('first_section_nine')->default(false);
+            $table->date('post_date');
+            $table->string('post_month');
+            $table->string('image');
+            $table->boolean('reviewed')->default(false);
+            $table->integer('trustfactor')->nullable();
+            $table->text('admin_comment')->nullable();
             $table->timestamps();
         });
     }

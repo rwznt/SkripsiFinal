@@ -10,14 +10,9 @@ class Article extends Model
     use HasFactory;
     protected $guarded = [];
 
-    public function categoryRelation()
+    public function category()
     {
-        return $this->belongsTo(Category::class,'category_id','id');
-    }
-
-    public function subcategoryRelation()
-    {
-        return $this->belongsTo(Subcategory::class,'subcategory_id','id');
+        return $this->belongsTo(Category::class);
     }
 
     public function userRelation()

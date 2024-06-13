@@ -42,4 +42,10 @@ class ProfileController extends Controller
 
     	return redirect('editprofile');
     }
+
+    public function showAuthenticatedUser()
+    {
+        $user = Auth::user();
+        return view('profile.account', ['user' => $user]);
+    }
 }

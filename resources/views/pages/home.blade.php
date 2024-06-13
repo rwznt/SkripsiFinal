@@ -39,7 +39,7 @@
         <div class="row flex-nowrap overflow-auto">
             @foreach ($categories as $kategori)
                 <div class="col-auto">
-                    <button class="btn btn-primary">{{ $kategori->name }}</button>
+                    <a href="{{ route('articles.by_category', ['category' => $kategori->id]) }}" class="btn btn-primary">{{ $kategori->name }}</a>
                 </div>
             @endforeach
         </div>
