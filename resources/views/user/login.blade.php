@@ -2,8 +2,7 @@
 @section('content')
 <style>
     body{
-        background: rgb(2,0,36);
-        background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(146,32,240,1) 100%);
+        background: white;
     }
 
 </style>

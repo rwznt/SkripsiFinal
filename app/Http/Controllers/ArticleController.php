@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Article;
 use App\Models\Category;
-use App\Models\SubCategory;
 use Intervention\Image\Facades\Image;
 
 
@@ -22,7 +21,6 @@ class ArticleController extends Controller
     public function createArticle()
     {
         $categories = Category::latest()->get();
-        $subcategories = SubCategory::latest()->get();
 
         return view();
     }
@@ -33,8 +31,6 @@ class ArticleController extends Controller
 
         $name_gen   = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
 
-         // resize() dikarenakan sudah memakai package Image Intervention.
-
         Image::make($image)->resize(784,436)->save('upload/news/'.$name_gen);
 
         $save_url = 'upload/news/'.$name_gen;
@@ -42,11 +38,10 @@ class ArticleController extends Controller
         Article::insert([
 
             'category_id'               => $request->category_id,
-            'subcategory_id'            => $request->subcategory_id,
             'user_id'                   => $request->user_id,
-            'news_title'                => $request->news_title,
-            'news_title_slug'           => strtolower(str_replace(' ','-',$request->news_title)),
-            'news_details'              => $request->news_details,
+            'title'                     => $request->title,
+            'title_slug'                => strtolower(str_replace(' ','-',$request->news_title)),
+            'content'                   => $request->content,
             'tags'                      => $request->tags,
 
             'breaking_news'             => $request->breaking_news,
@@ -61,11 +56,17 @@ class ArticleController extends Controller
 
         ]);
 
-        return redirect();
+        $notification = array(
+            'message' => 'Article Successfully Inserted',
+            'alert_type' => 'success'
+        );
+
+        return redirect()->route('')->with($notification);
     }
 
-    public function editArticle(Article $article)
+    public function editArticle($id)
     {
+        $articles = Article::findOrFail($id);
         return view();
     }
 
@@ -79,14 +80,38 @@ class ArticleController extends Controller
 
         $article->update($request->all());
 
-        return redirect();
+        $notification = array(
+            'message' => 'Article Successfully Updated',
+            'alert_type' => 'success'
+        );
+
+        return redirect()->back()->with($notification);
 
     }
 
-    public function deleteArticle(Article $article)
+    public function deleteArticle($id)
     {
-        $article->delete();
+        $articles = Article::findOrFail($id);
+        $articles->delete();
 
-        return redirect();
+        $notification = array(
+            'message' => 'Article Successfully Deleted',
+            'alert_type' => 'success'
+        );
+
+        return redirect()->back()->with($notification);
+    }
+
+    public function review() {
+        return view();
+    }
+
+    public function reviewUp(Request $request, Article $article)
+    {
+        $articles = Article::findOrFail($article);
+        Article::insert([
+            'trustfactor' => $request->trustFactor
+        ]);
+
     }
 }

@@ -15,11 +15,11 @@ return new class extends Migration
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('news_id')->unsigned();
+            $table->unsignedBigInteger('article_id')->unsigned();
             $table->unsignedBigInteger('user_id')->unsigned();
             $table->string('comment');
-            $table->foreign('news_id')
-                        ->references('id')->on('news_posts')
+            $table->foreign('article_id')
+                        ->references('id')->on('articles')
                         ->onDelete('cascade');
 
             $table->foreign('user_id')

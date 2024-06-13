@@ -10,34 +10,39 @@
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
     <style>
-      .mynav{
-        background: rgb(2,0,36);
-        background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(146,32,240,1) 100%);
-      }
-      .mynav a {
-        margin-right: 10px;
-        color: white !important;
-        border-bottom: 2px solid transparent;
-      }
-
-      .mynav a:hover {
-          border-bottom: 2px solid white;
-      }
-
-      .active a {
-          border-bottom: 2px solid white;
-      }
-      ul .mymenu
-      {
-        background: rgb(2,0,36);
-        background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(146,32,240,1) 100%);
-      }
-      .mymenu a:hover
-      {
-        background: rgb(2,0,36);
-        background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(146,32,240,1) 100%);
-      }
-
+        .navbar{
+            background-color: #00AEEF;
+        }
+        .navbar-nav .nav-link {
+            color: white; !important;
+        }
+        .category-scroll-wrapper {
+            overflow-x: auto;
+            white-space: nowrap;
+            background-color: #E0F7FA;
+            padding: 10px 0;
+        }
+        .category-scroll-wrapper .btn {
+            border-radius: 20px;
+            margin: 5px;
+        }
+        .welcome-section {
+            background-color: #00AEEF;
+            color: white;
+            padding: 50px 0;
+            text-align: center;
+        }
+        .welcome-section .btn {
+            border-radius: 20px;
+        }
+        .category-scroll-wrapper {
+            overflow-x: auto;
+            overflow-y: hidden;
+            white-space: nowrap;
+        }
+        .category-scroll-wrapper::-webkit-scrollbar {
+            display: none;
+        }
     </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   </head>
@@ -47,17 +52,20 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item {{ Request()->is('home') ? 'active' : '' }}">
-            <a class="nav-link " href="{{ url('home') }}"> Articreate </a>
+            <a class="nav-link" href="{{ url('home') }}" style="size: 72px"> Articreate </a>
           </li>
         </ul>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto ml-auto">
                 <li class="nav-item">
-                    <div class="justify-content-md-center">
+                    <div class="d-flex justify-content-center">
                         <form class="form-inline my-2 my-lg-0">
-                            <input class="form-control mr-sm-2" type="text" placeholder="Zoeken..." aria-label="Search" style="width: 600px;">
-
-                            <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
+                            <div class="input-group">
+                                <div class="d-flex align-items-center">
+                                    <input class="form-control mr-sm-2" type="text" placeholder="Search desired article" aria-label="Search" style="width: 600px;">
+                                    <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </li>

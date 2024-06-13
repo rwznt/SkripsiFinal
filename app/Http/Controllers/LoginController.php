@@ -29,6 +29,7 @@ class LoginController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+
         $user->save();
 
         return redirect()->route('login')->with('success', 'Registration success. Please login!');

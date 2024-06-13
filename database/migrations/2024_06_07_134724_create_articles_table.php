@@ -16,12 +16,11 @@ return new class extends Migration
         Schema::create('articles', function (Blueprint $table) {
             $table->id();
             $table->integer('category_id')->nullable();
-            $table->integer('subcategory_id')->nullable();
             $table->integer('user_id')->nullable();
-            $table->string('news_title')->nullable();
-            $table->string('news_title_slug')->nullable();
+            $table->string('title')->nullable();
+            $table->string('title_slug')->nullable();
             $table->string('image')->nullable();
-            $table->text('news_details')->nullable();
+            $table->text('content')->nullable();
             $table->text('tags')->nullable();
             $table->integer('breaking_news')->nullable();
             $table->integer('top_slider')->nullable();

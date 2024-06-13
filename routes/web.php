@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ArticleController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,9 +15,8 @@ use App\Http\Controllers\ProfileController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/home', [homecontroller::class, 'render'])->name('render');
-Route::get('/', [HomeController::class, 'render'])->name('render');
+Route::get('/home', [HomeController::class, 'index']);
+Route::get('/', [HomeController::class, 'index']);
 
 Route::get('register', [LoginController::class, 'register'])->name('register')->middleware('guest');
 Route::post('register', [LoginController::class, 'register_action'])->name('register.action');
@@ -29,6 +29,16 @@ Route::post('password', [LoginController::class, 'password_action'])->name('pass
 Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/profile', [profilecontroller::class,'index'])->middleware('auth');
-Route::get('/editprofile', [profilecontroller::class,'editprofile']);
-Route::post('editprofile', [profilecontroller::class,'update']);
+Route::get('/editprofile', [profilecontroller::class, 'editprofile']);
+Route::post('editprofile', [profilecontroller::class, 'update']);
 
+Route::get('/create', [ArticleController::class, 'create'])->name('create');
+Route::post('create', [ArticleController::class, 'store']);
+
+Route::get('/edit', [ArticleController::class, 'editArticle'])->name('editArticle');
+Route::post('/edit', [ArticleController::class,  'updateArticle']);
+
+Route::middleware('level')->group(function () {
+    Route::get('review', [ArticleController::class, 'review'])->name('review');
+    Route::post('review', [ArticleController::class, 'reviewUp']);
+});
