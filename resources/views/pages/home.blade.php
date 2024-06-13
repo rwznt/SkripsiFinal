@@ -58,8 +58,7 @@
             </div>
         </div>
         <div class='button'>
-            <button class="btn btn-dark btn-lg">Start Writing</button>
-        </div>
+            <a href="{{ route('create') }}" class="btn btn-dark btn-lg">Start Writing</a>
     </div>
 </div>
 

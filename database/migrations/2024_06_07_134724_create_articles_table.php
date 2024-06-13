@@ -31,6 +31,7 @@ return new class extends Migration
             $table->integer('status')->default(1)->nullable();
             $table->integer('view_count')->default(0)->nullable();
             $table->integer('trust_factor')->nullable();
+            $table->boolean('reviewed')->default('0');
             $table->timestamps();
         });
     }

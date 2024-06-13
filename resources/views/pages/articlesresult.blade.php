@@ -14,7 +14,7 @@
                             @foreach($articles as $article)
                                 <li class="list-group-item">
                                     <h5>{{ $article->title }}</h5>
-                                    <p>{{ \Illuminate\Support\Str::limit($article->content, 100) }}</p>
+                                    <p>{{ Str::limit($article->content, 100) }}</p>
                                 </li>
                             @endforeach
                         </ul>

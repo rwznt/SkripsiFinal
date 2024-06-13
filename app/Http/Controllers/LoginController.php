@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
 {
@@ -17,22 +18,28 @@ class LoginController extends Controller
 
     public function register_action(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|unique:User',
-            'password' => 'required',
-            'password_confirm' => 'required|same:password',
+        $this->validator($request->all())->validate();
+        $user = $this->create($request->all());
+        auth()->login($user);
+        return redirect()->route('home')->with('success', 'Registration successful. You are now logged in.');
+    }
+
+    protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
+    }
 
-        $user = new User([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+    protected function create(array $data)
+    {
+        return User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
         ]);
-
-        $user->save();
-
-        return redirect()->route('login')->with('success', 'Registration success. Please login!');
     }
 
 

@@ -15,14 +15,17 @@ class ArticleController extends Controller
     public function index()
     {
         $articles = Article::latest()->get();
-        return view();
+        return view('pages.articlesresult');
     }
 
-    public function createArticle()
+    public function create()
     {
-        $categories = Category::latest()->get();
+        $categories = Category::all();
 
-        return view();
+        return view('pages.create', [
+            'categories' => $categories,
+            'title' => 'Create Article'
+        ]);
     }
 
     public function store(Request $request)
@@ -61,7 +64,7 @@ class ArticleController extends Controller
             'alert_type' => 'success'
         );
 
-        return redirect()->route('')->with($notification);
+        return redirect()->route('create')->with($notification);
     }
 
     public function editArticle($id)
@@ -113,5 +116,12 @@ class ArticleController extends Controller
             'trustfactor' => $request->trustFactor
         ]);
 
+    }
+
+    public function newlyCreated()
+    {
+        $articles = Article::orderBy('created_at', 'desc')->get();
+
+        return view('articles.newly-created', compact('articles'));
     }
 }
