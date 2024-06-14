@@ -7,6 +7,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,7 +34,6 @@ Route::get('latest', [ArticleController::class, 'index'])->name('updatedArticles
 
 Route::get('article/{article}', [ArticleController::class, 'show'])->name('articles.show');
 
-
 Route::get('category/{category}', [ArticleController::class, 'articlesByCategory'])->name('articles.by_category');
 
 Route::get('/user/{id}', [AccountController::class, 'show'])->name('user.detail');
@@ -57,6 +58,13 @@ Route::post('editprofile', [ProfileController::class, 'update']);
 Route::get('create', [ArticleController::class, 'create'])->name('create');
 Route::post('store', [ArticleController::class, 'store'])->name('store');
 
+Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
+Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->name('comments.destroy');
+
 Route::get('edit/{id}', [ArticleController::class, 'editArticle'])->name('editArticle');
 Route::post('edit/{article}', [ArticleController::class, 'updateArticle'])->name('updateArticle');
+
+Route::get('users/{user}', [UserController::class, 'show'])->name('users.show');
+Route::match(['get', 'post'], 'users/{user}/follow', [UserController::class, 'follow'])->name('users.follow');
+Route::match(['get', 'post'], 'users/{user}/unfollow', [UserController::class, 'unfollow'])->name('users.unfollow');
 });

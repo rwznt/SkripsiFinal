@@ -11,8 +11,6 @@
                     <small class="text-muted">Created by:
                         @if ($article->user)
                             <a href="{{ route('user.detail', ['id' => $article->user->id]) }}">{{ $article->user->name }}</a>
-                        @else
-                            Unknown User
                         @endif
                     </small><br>
                     <img src="{{ asset('storage/' . $article->image) }}" alt="{{ $article->title }}" class="img-fluid mb-3">
@@ -21,6 +19,7 @@
 
                     <hr>
 
+                    <!-- Like/Unlike Buttons -->
                     <div class="mb-3">
                         @if ($article->likedBy(auth()->id()))
                             <form action="{{ route('article.unlike', ['id' => $article->id]) }}" method="POST" style="display: inline;">
@@ -38,6 +37,7 @@
                             </form>
                         @endif
 
+                        <!-- Edit Review Modal -->
                         @auth
                             @if (auth()->user()->isAdmin())
                                 <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#editReviewModal">Edit Review</button>
@@ -75,6 +75,7 @@
 
                     <hr>
 
+                    <!-- Review Information -->
                     @if ($article->reviewed)
                         <div class="mt-3">
                             <h5>Review Information</h5>
@@ -87,12 +88,41 @@
                     @endif
 
                     <hr>
+
+                    <!-- Comment Section -->
                     <h5>Comments</h5>
+                    @auth
+                        <!-- Form for creating a new comment -->
+                        <form action="{{ route('comments.store') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="article_id" value="{{ $article->id }}">
+                            <div class="form-group">
+                                <label for="content">Add Comment</label>
+                                <textarea class="form-control" id="content" name="content" rows="3" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                        <hr>
+                    @endauth
+
+                    <!-- Display Comments -->
                     @foreach ($article->comments as $comment)
                         <div class="card mb-2">
                             <div class="card-body">
                                 <p>{{ $comment->content }}</p>
-                                <small class="text-muted">By: {{ $comment->user->name ?? 'Unknown User' }}, {{ $comment->created_at->diffForHumans() }}</small>
+                                <small class="text-muted">
+                                    By: {{ $comment->user->name ?? 'Unknown User' }}, {{ $comment->created_at->diffForHumans() }}
+                                    @auth
+                                        @if ($comment->user_id === auth()->id() || $article->user_id === auth()->id() || auth()->user()->isAdmin())
+                                            <!-- Delete button for the comment -->
+                                            <form action="{{ route('comments.destroy', ['id' => $comment->id]) }}" method="POST" style="display: inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                            </form>
+                                        @endif
+                                    @endauth
+                                </small>
                             </div>
                         </div>
                     @endforeach

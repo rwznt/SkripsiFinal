@@ -11,7 +11,7 @@
         @else
             <div class="list-group">
                 @foreach ($articles as $article)
-                    <a href="{{ route('article', ['article' => $article->id]) }}" class="list-group-item list-group-item-action">
+                    <a href="{{ route('articles.show', ['article' => $article->id]) }}" class="list-group-item list-group-item-action">
                         <div class="d-flex w-100 justify-content-between">
                             <h5 class="mb-1">{{ $article->title }}</h5>
                             <small>Created at: {{ $article->created_at->format('M d, Y H:i:s') }}</small>

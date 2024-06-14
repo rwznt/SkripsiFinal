@@ -27,6 +27,27 @@
                             @endforeach
                         </ul>
                     @endif
+
+                    <hr>
+                    {{--
+                    @auth
+                        @if (auth()->user()->id !== $user->id)
+                            @if (auth()->user()->isFollowing($user))
+                                <form action="{{ route('users.unfollow', ['user' => $user->id]) }}" method="POST" style="display: inline;">
+                                    @csrf
+                                    <button type="submit" class="btn btn-danger">Unfollow</button>
+                                </form>
+                            @else
+                                <form action="{{ route('users.follow', ['user' => $user->id]) }}" method="POST" style="display: inline;">
+                                    @csrf
+                                    <button type="submit" class="btn btn-primary">Follow</button>
+                                </form>
+                            @endif
+                        @else
+                            <p class="text-danger">You cannot follow yourself.</p>
+                        @endif
+                    @endauth
+                    --}}
                 </div>
             </div>
         </div>

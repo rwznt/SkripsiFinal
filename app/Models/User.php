@@ -56,4 +56,21 @@ class User extends Authenticatable
     {
         return $this->level === 'admin';
     }
+
+    public function followees()
+    {
+        return $this->belongsToMany(User::class, 'user_follows', 'follower_id', 'followee_id')
+                    ->withTimestamps();
+    }
+
+    public function isFollowing(User $user)
+    {
+        return $this->followees()->where('followee_id', $user->id)->exists();
+    }
+
+    public function following()
+    {
+        return $this->belongsToMany(User::class, 'user_follows', 'follower_id', 'followee_id')
+                    ->withTimestamps();
+    }
 }
