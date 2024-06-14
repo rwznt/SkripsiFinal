@@ -68,7 +68,11 @@
             </div>
         </div>
         <div class="button">
-            <a href="{{ route('create') }}" class="btn btn-dark btn-lg">Start Writing</a>
+            @auth
+                <a href="{{ route('create') }}" class="btn btn-dark btn-lg">Start Writing</a>
+            @else
+                <a href="{{ route('login') }}" class="btn btn-dark btn-lg">Log in to Start Writing</a>
+            @endauth
         </div>
     </div>
 </div>
