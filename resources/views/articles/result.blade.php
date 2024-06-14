@@ -1,4 +1,5 @@
 @extends('layout.app')
+
 @section('content')
 
 <div class="container">
@@ -15,6 +16,7 @@
                                 <li class="list-group-item">
                                     <h5>{{ $article->title }}</h5>
                                     <p>{{ Str::limit($article->content, 100) }}</p>
+                                    <p>Created by: {{ $article->user->name }}</p> 
                                 </li>
                             @endforeach
                         </ul>
@@ -24,4 +26,3 @@
         </div>
     </div>
 </div>
-@endsection

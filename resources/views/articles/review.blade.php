@@ -20,8 +20,8 @@
                         @csrf
                         @method('PUT')
                         <div class="form-group">
-                            <label for="trustFactor">Trust Factor (1-10)</label>
-                            <input type="number" id="trustFactor" name="trustFactor" class="form-control" min="1" max="10" required>
+                            <label for="trustFactor">Trust Factor (1-100)</label>
+                            <input type="number" id="trustFactor" name="trustFactor" class="form-control" min="1" max="100" required>
                         </div>
                         <div class="form-group">
                             <label for="comments">Comments</label>

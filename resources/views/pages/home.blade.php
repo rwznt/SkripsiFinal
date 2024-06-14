@@ -4,33 +4,43 @@
 
 <style>
     .words {
-      text-align: left;
-      margin-left: 27px;
+        text-align: center;
+        margin-top: 50px;
     }
 
-    .leadword {
-        margin-top: 27px;
-        size: 360px;
+    .leadword h1 {
+        font-size: 3rem;
+        margin-bottom: 10px;
     }
 
-    .leaddesc {
-        margin-top: 40px;
-        size: 144px;
+    .leaddesc p {
+        font-size: 1.2rem;
+        margin-top: 20px;
     }
 
     .button {
-      text-align: right;
-      margin-right: 27px;
-      margin-top: 60px;
+        text-align: center;
+        margin-top: 30px;
     }
 
-    .welcome-section{
-        width: 100%;
-        height: 500px;
+    .category-scroll-wrapper {
+        margin-top: 30px;
+        margin-bottom: 30px;
     }
-    .start{
-        width: 100%;
-        height: 500px;
+
+    .start {
+        background-color: #f7f7f7;
+        padding: 50px 0;
+    }
+
+    .start h2 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+    }
+
+    .start p {
+        font-size: 1.1rem;
+        line-height: 1.6;
     }
 </style>
 
@@ -57,8 +67,9 @@
                 <p>A website that lets you channel your ideas into writings in the form of an article</p>
             </div>
         </div>
-        <div class='button'>
+        <div class="button">
             <a href="{{ route('create') }}" class="btn btn-dark btn-lg">Start Writing</a>
+        </div>
     </div>
 </div>
 
@@ -69,12 +80,10 @@
                 <h2>You can also read articles</h2>
             </div>
             <div class="col-md-6">
-                <p>Start Reading by clicking the Categories that you like at the top or you can search it using the Search bar</p>
+                <p>Start reading by clicking the categories that interest you at the top, or use the search bar to find specific articles.</p>
             </div>
         </div>
     </div>
 </div>
 
 @endsection
-
-

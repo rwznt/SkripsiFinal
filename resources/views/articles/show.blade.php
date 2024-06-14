@@ -1,42 +1,34 @@
 @extends('layout.app')
 
 @section('content')
-
-@if (Auth::check() && (Auth::user()->isAdmin() || Auth::id() === $article->user_id))
-    <h1>{{ $article->title }}</h1>
-    <img src="{{ asset('storage/' . $article->image) }}" alt="{{ $article->title }}">
-    <p>{{ $article->body }}</p>
-    <p class="card-text"><small class="text-muted">Created at: {{ $article->created_at->format('M d, Y H:i:s') }}</small></p>
-
-    @if ($article->trustfactor !== null)
-        @php
-            $trustFactor = $article->trustfactor;
-            $color = $trustFactor >= 70 ? 'green' : ($trustFactor >= 40 ? 'yellow' : 'red');
-        @endphp
-        <div class="trust-factor">
-            <div class="trust-factor-graphic" style="background-color: {{ $color }};">
-                Trust Factor: {{ $trustFactor }}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">Articles</div>
+                <div class="card-body">
+                    @if($articles->isEmpty())
+                        <p>No articles found.</p>
+                    @else
+                        <ul class="list-group">
+                            @foreach($articles as $article)
+                                <li class="list-group-item">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h5>{{ $article->title }}</h5>
+                                        <small class="text-muted">Created by: {{ $article->user->name }}</small>
+                                    </div>
+                                    <p>{{ Str::limit($article->content, 200) }}</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <small class="text-muted">Created at: {{ $article->created_at->format('M d, Y H:i:s') }}</small>
+                                        <a href="{{ route('article.show', ['article' => $article->id]) }}" class="btn btn-sm btn-primary">Read More</a>
+                                    </div>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @endif
+                </div>
             </div>
         </div>
-    @else
-        <p>Trust Factor: N/A</p>
-    @endif
-
-    <div class="admin-comment mt-4">
-        <div>
-            <p><strong>Admin's Comment:</strong> {{ $article->admin_comment ?? 'N/A' }}</p>
-        </div>
     </div>
-
-    @else
-        <p>You do not have permission to view this article.</p>
-    @endif
-    @auth
-        @if (Auth::user()->isAdmin())
-            <a href="{{ route('review') }}" class="btn btn-primary">Review</a>
-        @endif
-    @endauth
-
-<a href="{{ session('previous_url') ?: route('articles.index') }}" class="btn btn-secondary mt-2">Back</a>
-
+</div>
 @endsection
