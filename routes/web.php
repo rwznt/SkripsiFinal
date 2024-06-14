@@ -6,6 +6,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\SearchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +51,8 @@ Route::get('article/{article}', [ArticleController::class, 'show'])->name('artic
 Route::get('category/{category}', [ArticleController::class, 'articlesByCategory'])->name('articles.by_category');
 
 Route::get('/account/{id}', [AccountController::class, 'show'])->name('account.detail');
+
+Route::get('/search-results', [SearchController::class, 'index'])->name('search.result');
 
 Route::middleware('level:admin')->group(function () {
     Route::get('article/review', [ArticleController::class, 'review'])->name('review');

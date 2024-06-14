@@ -78,12 +78,10 @@
                         <ul class="navbar-nav mr-auto ml-auto">
                             <li class="nav-item">
                                 <div class="d-flex justify-content-center">
-                                    <form class="form-inline my-2 my-lg-0">
+                                    <form class="form-inline my-2 my-lg-0" action="{{ route('search.result') }}" method="GET">
                                         <div class="input-group">
-                                            <div class="d-flex align-items-center">
-                                                <input class="form-control mr-sm-2" type="text" placeholder="Search desired article" aria-label="Search" style="width: 600px;">
-                                                <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
-                                            </div>
+                                            <input class="form-control mr-sm-2" type="text" name="query" placeholder="Search desired article" aria-label="Search" style="width: 600px;">
+                                            <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
                                         </div>
                                     </form>
                                 </div>
