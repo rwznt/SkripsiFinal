@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\AccountController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,6 +48,8 @@ Route::get('article/{article}', [ArticleController::class, 'show'])->name('artic
 
 
 Route::get('category/{category}', [ArticleController::class, 'articlesByCategory'])->name('articles.by_category');
+
+Route::get('/account/{id}', [AccountController::class, 'show'])->name('account.detail');
 
 Route::middleware('level:admin')->group(function () {
     Route::get('article/review', [ArticleController::class, 'review'])->name('review');
