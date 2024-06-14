@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'level',
     ];
 
     /**
@@ -44,5 +45,15 @@ class User extends Authenticatable
 
     public function article() {
         return $this->hasMany(Article::class, 'user_id', 'id');
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+
+    public function isAdmin()
+    {
+        return $this->level === 'admin';
     }
 }

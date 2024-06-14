@@ -6,7 +6,6 @@
     <div class="container">
         <h1 class="mt-4">Search Results</h1>
 
-        {{-- Accounts Section --}}
         <div class="mt-4">
             <h2>Accounts</h2>
             @if ($accounts->isEmpty())
@@ -15,14 +14,13 @@
                 <ul class="list-group">
                     @foreach ($accounts as $account)
                         <li class="list-group-item">
-                            <a href="{{ route('account.detail', ['id' => $account->id]) }}">{{ $account->name }}</a>
+                            <a href="{{ route('user.detail', ['id' => $account->id]) }}">{{ $account->name }}</a>
                         </li>
                     @endforeach
                 </ul>
             @endif
         </div>
 
-        {{-- Articles Section --}}
         <div class="mt-4">
             <h2>Articles</h2>
             @if ($articles->isEmpty())
@@ -30,7 +28,7 @@
             @else
                 <div class="list-group">
                     @foreach ($articles as $article)
-                        <a href="{{ route('article.show', ['id' => $article->id]) }}" class="list-group-item list-group-item-action">
+                        <a href="{{ route('articles.show', ['id' => $article->id]) }}" class="list-group-item list-group-item-action">
                             <div class="d-flex w-100 justify-content-between">
                                 <h5 class="mb-1">{{ $article->title }}</h5>
                                 <small>Created by: {{ $article->user->name }}</small>

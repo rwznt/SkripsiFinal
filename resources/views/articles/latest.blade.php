@@ -12,7 +12,7 @@
         <div class="row">
             @foreach ($articles as $article)
                 <div class="col-md-6 mb-4">
-                    <a href="{{ route('article', ['article' => $article->id]) }}" class="text-decoration-none">
+                    <a href="{{ route('articles.show', ['article' => $article->id]) }}" class="text-decoration-none">
                         <div class="card h-100">
                             <div class="card-body">
                                 <h5 class="card-title">{{ $article->title }}</h5>

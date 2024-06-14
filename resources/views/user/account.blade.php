@@ -18,7 +18,12 @@
                     @else
                         <ul class="list-group">
                             @foreach ($articles as $article)
-                                <li class="list-group-item">{{ $article->title }}</li>
+                                <li class="list-group-item">
+                                    <a href="{{ route('articles.show', ['article' => $article->id]) }}">
+                                        {{ $article->title }}
+                                    </a>
+                                    <span class="float-end">{{ $article->created_at->format('M d, Y H:i:s') }}</span>
+                                </li>
                             @endforeach
                         </ul>
                     @endif

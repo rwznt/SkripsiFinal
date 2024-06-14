@@ -62,7 +62,7 @@
 </style>
 
 <h1 class="my-4 text-left">Create an Article</h1>
-<form action="{{ route('create') }}" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+<form action="{{ route('store') }}" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
     @csrf
     <div class="form-group">
         <label for="dropdown">Choose a category:</label>

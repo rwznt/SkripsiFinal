@@ -112,8 +112,7 @@
                                         Manage
                                     </a>
                                     <ul class="dropdown-menu mymenu" aria-labelledby="navbarDropdown">
-                                        <li><a class="nav-link bi bi-journal-check" href="/item">Review Article</a></li>
-                                        <li><a class="nav-link bi bi-bookmark-plus" href="/additem">Publish Article</a></li>
+                                        <li><a class="nav-link bi bi-journal-check" href="{{route('review')}}">Review Article</a></li>
                                     </ul>
                                 </li>
                                 <li class="nav-item dropdown">
@@ -122,7 +121,7 @@
                                         Profile
                                     </a>
                                     <ul class="dropdown-menu mymenu" aria-labelledby="navbarDropdown">
-                                        <li><a class="nav-link" href="{{ route('account.detail', ['id' => Auth::id()]) }}">{{ Auth::user()->name }}</a></li>
+                                        <li><a class="nav-link" href="{{ route('user.detail', ['id' => Auth::id()]) }}">{{ Auth::user()->name }}</a></li>
                                         <li><a class="nav-link bi bi-person-gear" href="{{ url('profile') }}">Edit Profile</a></li>
                                         <li><a class="nav-link bi bi-person-lock" href="{{ route('password') }}">Password</a></li>
                                         <li><hr class="dropdown-divider bg-white"></li>
@@ -146,7 +145,7 @@
                                         Profile
                                     </a>
                                     <ul class="dropdown-menu mymenu" aria-labelledby="navbarDropdown">
-                                        <li><a class="nav-link" href="{{ route('account.detail', ['id' => Auth::id()]) }}">{{ Auth::user()->name }}</a></li>
+                                        <li><a class="nav-link" href="{{ route('user.detail', ['id' => Auth::id()]) }}">{{ Auth::user()->name }}</a></li>
                                         <li><a class="nav-link bi bi-person-gear" href="{{ url('profile') }}">Edit Profile</a></li>
                                         <li><a class="nav-link bi bi-person-lock" href="{{ route('password') }}">Password</a></li>
                                         <li><hr class="dropdown-divider"></li>
