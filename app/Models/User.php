@@ -21,7 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'level',
+        'role',
     ];
 
     /**
@@ -54,7 +54,7 @@ class User extends Authenticatable
 
     public function isAdmin()
     {
-        return $this->level === 'admin';
+        return $this->role === 'admin';
     }
 
     public function followees()

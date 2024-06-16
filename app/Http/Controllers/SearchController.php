@@ -11,18 +11,34 @@ class SearchController extends Controller
 {
     public function index(Request $request)
     {
-        $searchTerm = $request->input('q');
-        $accounts = User::where('name', 'like', '%'.$searchTerm.'%')->get();
-        $articles = Article::where('title', 'like', '%'.$searchTerm.'%')->get();
-        $accountIds = $accounts->pluck('id')->toArray();
-        $articlesByAccounts = Article::whereIn('user_id', $accountIds)->get();
-        $articles = $articles->merge($articlesByAccounts)->unique();
+        $keyword = $request->input('q');
+
+        if (!$keyword) {
+            // Handle case where search term is empty or not provided
+            return view('pages.search_result', [
+                'users' => collect(), // Empty collection
+                'articles' => collect(), // Empty collection
+                'title' => 'Search Results',
+                'keyword' => $keyword,
+            ]);
+        }
+
+        // Search users by name
+        $users = User::where('name', 'like', '%' . $keyword . '%')->get();
+
+        // Search articles by title and by associated user names
+        $articles = Article::where('title', 'like', '%' . $keyword . '%')
+                           ->orWhereHas('user', function ($query) use ($keyword) {
+                               $query->where('name', 'like', '%' . $keyword . '%');
+                           })
+                           ->get();
 
         return view('pages.search_result', [
-            'accounts' => $accounts,
+            'users' => $users,
             'articles' => $articles,
             'title' => 'Search Results',
-            'type' => 'accounts',
+            'keyword' => $keyword,
         ]);
     }
 }
+

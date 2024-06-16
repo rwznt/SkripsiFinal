@@ -23,7 +23,6 @@
     .image-placeholder img {
         width: 100%;
         height: 100%;
-        display: none;
         border-radius: 10px;
     }
 
@@ -63,7 +62,7 @@
 </style>
 
 <div class="container">
-    <h1 class="my-4 text-left">Create New Article</h1>
+    <h1 class="my-4 text-left">Edit the Article</h1>
 
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -75,14 +74,16 @@
         </div>
     @endif
 
-    <form action="{{ route('store') }}" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+    <form action="{{ route('articles.update', ['article' => $article->id]) }}" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
         @csrf
+        @method('PUT')
+
         <div class="form-group">
             <label for="dropdown">Choose a category:</label>
-            <select name="dropdown" id="dropdown" class="form-control" required>
+            <select name="category_id" id="dropdown" class="form-control" required>
                 <option value="">Select Category...</option>
                 @foreach ($categories as $category)
-                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    <option value="{{ $category->id }}" {{ $article->category_id == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
                 @endforeach
             </select>
             <div class="invalid-feedback">Please select a category.</div>
@@ -90,24 +91,24 @@
 
         <div class="form-group">
             <label for="title">Title:</label>
-            <input type="text" id="title" name="title" class="form-control" placeholder="Title" required>
+            <input type="text" id="title" name="title" class="form-control" placeholder="Title" value="{{ $article->title }}" required>
             <div class="invalid-feedback">Please enter a title.</div>
         </div>
 
         <div class="form-group">
             <label for="image">Image:</label>
             <label class="image-placeholder">
-                <img id="image-preview" src="" alt="Image Preview" class="img-fluid">
+                <img id="image-preview" src="{{ asset($article->image) }}" alt="Image Preview" class="img-fluid">
                 <input type="file" name="image" accept="image/*" id="image" onchange="previewImage(event)" class="form-control-file">
             </label>
         </div>
 
         <div class="form-group">
             <label for="content">Content:</label>
-            <textarea id="content" name="content" class="form-control" placeholder="Content" rows="6" required></textarea>
+            <textarea id="content" name="content" class="form-control" placeholder="Content" rows="6" required>{{ $article->content }}</textarea>
             <div class="invalid-feedback">Please enter the content.</div>
         </div>
-        
+
         <button type="submit" class="btn btn-primary btn-block">Submit</button>
     </form>
 </div>

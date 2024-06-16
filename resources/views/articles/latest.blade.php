@@ -4,6 +4,12 @@
 <div class="container">
     <h1>{{ $title }}</h1>
 
+    @if(session('success'))
+    <div class="alert alert-success" role="alert">
+        {{ session('success') }}
+    </div>
+    @endif
+
     @if($articles->isEmpty())
         <div class="alert alert-warning" role="alert">
             There are no articles available.

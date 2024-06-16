@@ -30,7 +30,7 @@ Route::post('register', [LoginController::class, 'register_action'])->name('regi
 Route::get('login', [LoginController::class, 'login'])->name('login')->middleware('guest');
 Route::post('login', [LoginController::class, 'login_action'])->name('login.action');
 
-Route::get('latest', [ArticleController::class, 'index'])->name('updatedArticles');
+Route::get('latest', [ArticleController::class, 'index'])->name('articles.index');
 
 Route::get('article/{article}', [ArticleController::class, 'show'])->name('articles.show');
 
@@ -38,8 +38,7 @@ Route::get('category/{category}', [ArticleController::class, 'articlesByCategory
 
 Route::get('/user/{id}', [AccountController::class, 'show'])->name('user.detail');
 
-Route::get('/search-results', [SearchController::class, 'index'])->name('search.result');
-
+Route::get('/search', [SearchController::class, 'index'])->name('search.result');
 
 Route::middleware(['auth'])->group(function () {
 Route::get('/review', [ArticleController::class, 'review'])->name('review');
@@ -55,16 +54,18 @@ Route::get('profile', [ProfileController::class, 'index'])->middleware('auth');
 Route::get('editprofile', [ProfileController::class, 'editprofile']);
 Route::post('editprofile', [ProfileController::class, 'update']);
 
-Route::get('create', [ArticleController::class, 'create'])->name('create');
-Route::post('store', [ArticleController::class, 'store'])->name('store');
+Route::get('/create', [ArticleController::class, 'create'])->name('create');
+Route::post('/store', [ArticleController::class, 'store'])->name('store');
+
+Route::delete('/article/{id}', [ArticleController::class, 'destroy'])->name('articles.destroy');
 
 Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
 Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->name('comments.destroy');
 
-Route::get('edit/{id}', [ArticleController::class, 'editArticle'])->name('editArticle');
-Route::post('edit/{article}', [ArticleController::class, 'updateArticle'])->name('updateArticle');
-
 Route::get('users/{user}', [UserController::class, 'show'])->name('users.show');
 Route::match(['get', 'post'], 'users/{user}/follow', [UserController::class, 'follow'])->name('users.follow');
 Route::match(['get', 'post'], 'users/{user}/unfollow', [UserController::class, 'unfollow'])->name('users.unfollow');
+
+Route::get('/articles/{id}/edit', [ArticleController::class, 'edit'])->name('articles.edit');
+Route::match(['get', 'put'], '/articles/{article}', [ArticleController::class, 'update'])->name('articles.update');
 });

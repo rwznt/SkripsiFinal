@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use App\Models\Comment;
 use App\Models\Like;
+use Illuminate\Support\Str;
 
 class ArticleController extends Controller
 {
@@ -26,10 +27,9 @@ class ArticleController extends Controller
     public function create()
     {
         $categories = Category::all();
-
         return view('articles.create', [
-            'categories' => $categories,
-            'title' => 'Create Article'
+           'categories' => $categories,
+           'title' => 'Create New Article'
         ]);
     }
 
@@ -38,82 +38,85 @@ class ArticleController extends Controller
         $request->validate([
             'dropdown' => 'required',
             'title' => 'required|max:255',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:10240',  // 10 MB
             'content' => 'required',
         ]);
 
-        $image = $request->file('image');
-        $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
-        $image->move(public_path('upload/news/'), $name_gen);
-        $save_url = 'upload/news/' . $name_gen;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
 
+            // Store the file in 'public/img'
+            $image->move(public_path('img'), $name_gen);
+
+            // Save the path relative to 'public/img'
+            $image_path = 'img/' . $name_gen;
+        } else {
+            return back()->withErrors(['image' => 'Please upload an image file.']);
+        }
+
+        // Create new article
         $article = new Article();
         $article->category_id = $request->dropdown;
-        $article->user_id = auth()->id(); // Assuming user_id is the currently logged-in user
+        $article->user_id = auth()->id();
         $article->title = $request->title;
         $article->content = $request->content;
         $article->post_date = now()->format('Y-m-d');
         $article->post_month = now()->format('F');
-        $article->image = $save_url;
+        $article->image = $image_path;
         $article->save();
 
-        $notification = [
-            'message' => 'Article Successfully Inserted',
-            'alert_type' => 'success'
-        ];
-
-        return redirect()->route('articles.show', ['article' => $article->id])->with($notification);
+        return redirect()->route('articles.show', ['article' => $article->id])->with('success', 'New Article has been created!');
     }
 
     public function edit($id)
     {
         $article = Article::findOrFail($id);
         $categories = Category::all();
-        return view('articles.edit', compact('article', 'categories'));
+        return view('articles.edit', [
+            'article' => $article,
+            'categories' => $categories,
+            'title' => "Edit Article"
+        ]);
     }
 
     public function update(Request $request, $id)
-    {
-        $request->validate([
-            'category_id' => 'required',
-            'title' => 'required|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'content' => 'required'
-        ]);
+{
+    // Validate incoming request data
+    $request->validate([
+        'category_id' => 'required',
+        'title' => 'required|max:255',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10240', // Max size 10MB
+        'content' => 'required'
+    ]);
 
-        $article = Article::findOrFail($id);
+    // Find the article by its ID
+    $article = Article::findOrFail($id);
 
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
-            Image::make($image)->resize(784, 436)->save('upload/news/' . $name_gen);
-            $save_url = 'upload/news/' . $name_gen;
+    // Store the existing image path to avoid accidental deletion
+    $oldImage = $article->image;
 
-            if (Storage::exists($article->image)) {
-                Storage::delete($article->image);
-            }
+    // Handle image upload if a new image file is provided
+    if ($request->hasFile('image')) {
+        $image = $request->file('image');
+        $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
 
-            $article->image = $save_url;
+        $image->move(public_path('img'), $name_gen);
+
+        if ($oldImage && !Str::contains($oldImage, 'placeholder-image.png') && Storage::exists($oldImage)) {
+            Storage::delete($oldImage);
         }
 
-        $article->category_id = $request->category_id;
-        $article->title = $request->title;
-        $article->title_slug = strtolower(str_replace(' ', '-', $request->title));
-        $article->content = $request->content;
-        $article->tags = $request->tags;
-        $article->breaking_news = $request->has('breaking_news');
-        $article->top_slider = $request->has('top_slider');
-        $article->first_section_three = $request->has('first_section_three');
-        $article->first_section_nine = $request->has('first_section_nine');
-        $article->save();
-
-        $notification = [
-            'message' => 'Article Successfully Updated',
-            'alert_type' => 'success'
-        ];
-
-        return redirect()->route('articles.index')->with($notification);
+        $article->image = 'img/' . $name_gen;
     }
+
+    $article->category_id = $request->category_id;
+    $article->title = $request->title;
+    $article->content = $request->content;
+    $article->save();
+
+    return redirect()->route('articles.index')->with('success', 'Article Successfully Updated');
+}
 
     public function destroy($id)
     {
@@ -125,12 +128,7 @@ class ArticleController extends Controller
 
         $article->delete();
 
-        $notification = [
-            'message' => 'Article Successfully Deleted',
-            'alert_type' => 'success'
-        ];
-
-        return redirect()->route('articles.index')->with($notification);
+        return redirect()->route('articles.index')->with('success', 'Article Successfully Deleted');
     }
 
     public function review()

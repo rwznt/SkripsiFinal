@@ -52,17 +52,28 @@ class LoginController extends Controller
     public function login_action(Request $request)
     {
         $request->validate([
-            'email' => 'required',
+            'email' => 'required|email',
             'password' => 'required',
         ]);
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password],true)) {
+
+        $credentials = $request->only('email', 'password');
+        $remember = $request->filled('remember'); // Check if remember checkbox is checked
+
+        if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
+
             return redirect()->intended('/home');
         }
 
-        return back()->withErrors([
-            'password' => 'Wrong email or password',
-        ]);
+        $errors = [];
+
+        if (!User::where('email', $request->email)->exists()) {
+            $errors['email'] = 'The provided credentials do not match our records.';
+        } else {
+            $errors['password'] = 'The provided password is incorrect.';
+        }
+
+        return back()->withErrors($errors)->withInput($request->only('email', 'remember'));
     }
 
     public function password()
@@ -81,7 +92,7 @@ class LoginController extends Controller
         $user->password = Hash::make($request->new_password);
         $user->save();
         $request->session()->regenerate();
-        return back()->with('success', 'Password changed!');
+        return redirect('profile')->with('success', 'Password changed!');
     }
 
     public function logout(Request $request)

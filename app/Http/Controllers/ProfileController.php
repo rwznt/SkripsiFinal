@@ -1,16 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Http\Models\User;
 use Illuminate\Http\Request;
-use App\Models\User as ModelsUser;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
     public function index()
     {
-    	$user = ModelsUser::where('id', Auth::user()->id)->first();
+    	$user = User::where('id', Auth::user()->id)->first();
 
     	return view('user.profile', compact('user'),[
             'title' => 'Profile'
@@ -19,7 +18,7 @@ class ProfileController extends Controller
 
     public function editprofile(){
 
-        $user = ModelsUser::where('id', Auth::user()->id)->first();
+        $user = User::where('id', Auth::user()->id)->first();
         return view('user.editprofile',compact('user'),[
             'title' => 'Edit Profile',
         ]);
@@ -29,10 +28,17 @@ class ProfileController extends Controller
     {
     	 $this->validate($request, [
             'name'  => 'required',
-            'email' => 'required'
+            'email' => 'required',
+            'nohp' => 'nullable|string|max:20',
+            'address' => 'nullable|string|max:255',
         ]);
 
-    	$user = ModelsUser::where('id', Auth::user()->id)->first();
+    	$user = User::where('id', Auth::user()->id)->first();
+
+        if (!$user) {
+            return redirect('editprofile')->with('error', 'User not found');
+        }
+
     	$user->name = $request->name;
     	$user->email = $request->email;
     	$user->nohp = $request->nohp;
@@ -40,7 +46,7 @@ class ProfileController extends Controller
 
     	$user->update();
 
-    	return redirect('editprofile');
+    	return redirect('profile')->with('success', 'Profile updated successfully');
     }
 
     public function showAuthenticatedUser()

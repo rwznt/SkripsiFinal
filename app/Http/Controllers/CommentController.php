@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Article;
 use App\Models\Comment;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
@@ -30,9 +31,8 @@ class CommentController extends Controller
     {
         $comment = Comment::findOrFail($id);
 
-        if ($comment->user_id !== auth()->id() && $comment->article->user_id !== auth()->id() && !auth()->user()->isAdmin()) {
-            return back()->with('error', 'Unauthorized to delete this comment.');
-        }
+        // Authorize the 'delete' action using the CommentPolicy
+        $this->authorize('delete', $comment);
 
         $comment->delete();
 

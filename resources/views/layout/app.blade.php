@@ -80,7 +80,7 @@
                                 <div class="d-flex justify-content-center">
                                     <form class="form-inline my-2 my-lg-0" action="{{ route('search.result') }}" method="GET">
                                         <div class="input-group">
-                                            <input class="form-control mr-sm-2" type="text" name="query" placeholder="Search desired article" aria-label="Search" style="width: 600px;">
+                                            <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search desired article" aria-label="Search" style="width: 600px;">
                                             <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
                                         </div>
                                     </form>
@@ -104,7 +104,7 @@
                         </ul>
                         @endguest
                         @auth
-                        @if (Auth::user()->level == 'admin')
+                        @if (Auth::user()->role == 'admin')
                             <ul class="navbar-nav ms-auto mydrop">
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle bi bi-journals" href="#" id="navbarDropdown"
@@ -113,6 +113,7 @@
                                     </a>
                                     <ul class="dropdown-menu mymenu" aria-labelledby="navbarDropdown">
                                         <li><a class="nav-link bi bi-journal-check" href="{{route('review')}}">Review Article</a></li>
+                                        <li><a class="nav-link bi" href="{{ url('latest') }}">Latest Article</a></li>
                                     </ul>
                                 </li>
                                 <li class="nav-item dropdown">
@@ -131,7 +132,7 @@
                             </ul>
                         @endif
 
-                        @if (Auth::user()->level == 'member')
+                        @if (Auth::user()->role == 'user')
                             <ul class="navbar-nav ms-auto mydrop">
                                 <li class="nav-item {{ Request()->is('latest') ? 'active' : '' }}">
                                     <a class="nav-link bi" href="{{ url('latest') }}">Latest Article</a>
