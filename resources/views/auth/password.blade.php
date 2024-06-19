@@ -18,17 +18,20 @@
                             <label>Password <span class="text-danger">*</span></label>
                             <input class="form-control" type="password" name="old_password" />
                         </div>
+
                         <div class="mb-3 ">
                             <label>New Password <span class="text-danger">*</span></label>
                             <input class="form-control" type="password" name="new_password" />
                         </div>
+
                         <div class="mb-3 ">
                             <label>New Password Confirmation<span class="text-danger">*</span></label>
                             <input class="form-control" type="password" name="new_password_confirmation" />
                         </div>
+                        
                         <div class="mb-3 ">
                             <button class="btn btn-outline-primary">Change</button>
-                            <a class="btn btn-outline-danger" href="/">Back</a>
+                            <a class="btn btn-outline-danger" href="{{ url()->previous() }}">Back</a>
                         </div>
                     </form>
                 </div>

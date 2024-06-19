@@ -23,8 +23,12 @@ class SearchController extends Controller
             ]);
         }
 
-        // Search users by name
-        $users = User::where('name', 'like', '%' . $keyword . '%')->get();
+        // Search users by name and by associated articles
+        $users = User::where('name', 'like', '%' . $keyword . '%')
+                     ->orWhereHas('articles', function ($query) use ($keyword) {
+                         $query->where('title', 'like', '%' . $keyword . '%');
+                     })
+                     ->get();
 
         // Search articles by title and by associated user names
         $articles = Article::where('title', 'like', '%' . $keyword . '%')

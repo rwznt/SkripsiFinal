@@ -21,6 +21,9 @@ return new class extends Migration
             $table->string('password');
             $table->string('nohp')->nullable();
             $table->string('address')->nullable();
+            $table->string('image')->nullable();
+            $table->string('gender')->nullable();
+            $table->date('date_of_birth')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
@@ -34,5 +37,6 @@ return new class extends Migration
     public function down()
     {
         Schema::dropIfExists('users');
+
     }
 };
