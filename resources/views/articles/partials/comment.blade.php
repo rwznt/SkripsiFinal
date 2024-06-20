@@ -12,7 +12,6 @@
             @endcan
         </small>
 
-        {{-- Reply Form for Parent Comment --}}
         @auth
             <div class="reply-form mt-2">
                 <form action="{{ route('comments.reply', ['id' => $comment->id]) }}" method="POST">

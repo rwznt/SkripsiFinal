@@ -38,7 +38,6 @@
             </div>
         @endauth
 
-        {{-- Display Nested Replies --}}
         @foreach ($reply->replies as $nestedReply)
             @include('articles.partials.comment-reply', [
                 'reply' => $nestedReply,

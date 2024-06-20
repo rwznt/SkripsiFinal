@@ -12,24 +12,34 @@
         border-radius: 50%;
         margin: 20px auto;
     }
+
     .profile-stats {
         text-align: center;
         margin-top: 20px;
     }
+
     .profile-stats span {
         display: inline-block;
         margin: 0 15px;
     }
+
     .follow-button {
         margin-top: 10px;
     }
+
+    .alert-info {
+        text-align: center;
+    }
+
     .article-list-item {
         cursor: pointer;
     }
+
     .card-body h2 {
         text-align: center;
         margin-bottom: 20px;
     }
+
     .alert-info {
         text-align: center;
     }
@@ -39,11 +49,13 @@
         .profile-picture {
             width: 120px;
             height: 120px;
+
             margin: 10px auto;
         }
         .profile-stats {
             margin-top: 10px;
         }
+        
         .article-list-item {
             padding: 10px;
         }

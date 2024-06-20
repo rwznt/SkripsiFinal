@@ -168,7 +168,9 @@ class ArticleController extends Controller
 
                            $title = "Articles in Category: " . $category->name;
 
-                           return view('articles.by_category', compact('category', 'articles', 'title'));
+        $articles = $category->articles()->paginate(10);
+
+        return view('articles.by_category', compact('category', 'articles', 'title'));
     }
 
     public function like(Request $request, $id)

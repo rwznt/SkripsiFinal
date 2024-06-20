@@ -26,22 +26,22 @@
     }
 
     .btn-outline-primary {
-        color: #007bff; /* Bootstrap primary color for button text */
-        border-color: #007bff; /* Bootstrap primary color for button border */
+        color: #007bff; 
+        border-color: #007bff;
     }
 
     .btn-outline-primary:hover {
-        color: #fff; /* White text on hover */
-        background-color: #007bff; /* Bootstrap primary color for background */
+        color: #fff;
+        background-color: #007bff;
         border-color: #007bff;
     }
 
     .text-md-end {
-        text-align: end; /* Right align text for medium size and larger screens */
+        text-align: end;
     }
 
     .text-decoration-none {
-        color: #007bff; /* Bootstrap primary color for links */
+        color: #007bff;
     }
 </style>
 

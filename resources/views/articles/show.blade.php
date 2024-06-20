@@ -40,7 +40,7 @@
     }
 
     .nested-comments {
-        margin-left: 20px; /* Adjust indentation for nested comments */
+        margin-left: 20px;
     }
 </style>
 
@@ -78,7 +78,9 @@
             @endif
 
             <div class="article-content">
-                <p class="card-text">{{ $article->content }}</p>
+                @foreach (explode("\n", $article->content) as $paragraph)
+                    <p>{{ $paragraph }}</p>
+                @endforeach
 
                 <div class="article-meta">
                     <small class="text-muted">

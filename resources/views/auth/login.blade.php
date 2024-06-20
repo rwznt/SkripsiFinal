@@ -11,37 +11,37 @@
     }
 
     .card-header {
-        background-color: #f8f9fa; /* Light gray background for header */
-        border-bottom: 1px solid #dee2e6; /* Border bottom for separation */
-        font-weight: bold; /* Bold header text */
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #dee2e6;
+        font-weight: bold;
     }
 
     .form-control {
-        border: 1px solid #ced4da; /* Gray border for form controls */
+        border: 1px solid #ced4da;
     }
 
     .form-control:focus {
-        border-color: #007bff; /* Focus color for form controls */
-        box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25); /* Focus box shadow */
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
     }
 
     .btn-outline-primary {
-        color: #007bff; /* Bootstrap primary color for button text */
-        border-color: #007bff; /* Bootstrap primary color for button border */
+        color: #007bff;
+        border-color: #007bff;
     }
 
     .btn-outline-primary:hover {
-        color: #fff; /* White text on hover */
-        background-color: #007bff; /* Bootstrap primary color for background */
+        color: #fff;
+        background-color: #007bff;
         border-color: #007bff;
     }
 
     .text-md-end {
-        text-align: end; /* Right align text for medium size and larger screens */
+        text-align: end;
     }
 
     .text-decoration-none {
-        color: #007bff; /* Bootstrap primary color for links */
+        color: #007bff; 
     }
 </style>
 
