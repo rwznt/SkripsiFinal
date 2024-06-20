@@ -24,7 +24,14 @@
         margin-top: 10px;
     }
     .article-list-item {
-        cursor: pointer; /* Optional: Add pointer cursor for list items */
+        cursor: pointer;
+    }
+    .card-body h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .alert-info {
+        text-align: center;
     }
 
     /* Responsive Styling */
@@ -38,7 +45,7 @@
             margin-top: 10px;
         }
         .article-list-item {
-            padding: 10px; /* Add padding to list items for better touch interaction */
+            padding: 10px;
         }
     }
 </style>
@@ -47,13 +54,9 @@
     <div class="row justify-content-center mt-4">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header text-center">
-                    {{-- User Profile Header --}}
-                    @include('user.partials.profile_header')
-                </div>
+                @include('user.partials.profile_header')
 
                 <div class="card-body">
-                    {{-- Articles Section --}}
                     @include('user.partials.articles_section')
                 </div>
             </div>

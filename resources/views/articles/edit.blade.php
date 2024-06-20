@@ -77,7 +77,6 @@
     <form action="{{ route('articles.update', ['article' => $article->id]) }}" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
         @csrf
         @method('PUT')
-
         <div class="form-group">
             <label for="dropdown">Choose a category:</label>
             <select name="category_id" id="dropdown" class="form-control" required>

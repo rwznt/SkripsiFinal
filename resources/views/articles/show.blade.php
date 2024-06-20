@@ -46,7 +46,7 @@
 
 <div class="container">
     @if(session('success'))
-    <div class="alert alert-success" role="alert">
+    <div id="success-alert" class="alert alert-success" role="alert">
         {{ session('success') }}
     </div>
     @endif
@@ -114,7 +114,7 @@
                         <div class="modal fade" id="editReviewModal" tabindex="-1" aria-labelledby="editReviewModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
-                                    <form action="{{ route('article.review.update', ['article' => $article->id]) }}" method="POST">
+                                    <form action="{{ route('article.review.update', ['id' => $article->id]) }}" method="POST">
                                         @csrf
                                         @method('PUT')
                                         <div class="modal-header">
@@ -169,4 +169,20 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+            var successAlert = document.getElementById('success-alert');
+            if (successAlert) {
+                successAlert.style.transition = "opacity 0.5s ease";
+                successAlert.style.opacity = 0;
+                setTimeout(function() {
+                    successAlert.remove();
+                }, 500);
+            }
+        }, 5000);
+    });
+</script>
+
 @endsection
