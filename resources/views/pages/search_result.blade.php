@@ -29,9 +29,9 @@
                     @foreach ($users as $user)
                         <li class="list-group-item d-flex align-items-center">
                             @if ($user->image)
-                                <img src="{{ asset($user->image) }}" class="rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;" alt="{{ $user->name }}">
+                                <img src="{{ asset('storage/profile_image/' . $user->image) }}" class="rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;" alt="{{ $user->name }}">
                             @else
-                                <img src="{{ asset('images/default-profile.jpg') }}" class="rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;" alt="{{ $user->name }}">
+                                <img src="{{ asset('images/default-picture.jpg') }}" class="rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;" alt="{{ $user->name }}">
                             @endif
                             <a href="{{ route('user.detail', ['id' => $user->id]) }}">{{ $user->name }}</a>
                         </li>
