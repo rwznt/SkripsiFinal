@@ -36,7 +36,11 @@
 
     .reply-form {
         margin-top: 1rem;
-        margin-left: 20px; /* Indent reply forms */
+        margin-left: 20px;
+    }
+
+    .nested-comments {
+        margin-left: 20px; /* Adjust indentation for nested comments */
     }
 </style>
 
@@ -52,11 +56,9 @@
             <h1 class="article-title">{{ $article->title }}</h1>
 
             <div>
-                @if (!$article->reviewed && auth()->id() === $article->user->id)
-                    @can('update', $article)
-                        <a href="{{ route('articles.edit', ['id' => $article->id]) }}" class="btn btn-primary me-2">Edit</a>
-                    @endcan
-                @endif
+                @can('update', $article)
+                    <a href="{{ route('articles.edit', ['id' => $article->id]) }}" class="btn btn-primary me-2">Edit</a>
+                @endcan
 
                 @can('delete', $article)
                     <form action="{{ route('articles.destroy', ['id' => $article->id]) }}" method="POST" class="d-inline">
@@ -112,7 +114,7 @@
                         <div class="modal fade" id="editReviewModal" tabindex="-1" aria-labelledby="editReviewModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
-                                    <form action="{{ route('article.review.update', ['id' => $article->id]) }}" method="POST">
+                                    <form action="{{ route('article.review.update', ['article' => $article->id]) }}" method="POST">
                                         @csrf
                                         @method('PUT')
                                         <div class="modal-header">
@@ -157,67 +159,11 @@
             <div class="comment-section">
                 <h5>Comments</h5>
 
-                @auth
-                    <form id="commentForm" action="{{ route('comments.store') }}" method="POST" class="mb-3">
-                        @csrf
-                        <input type="hidden" name="article_id" value="{{ $article->id }}">
-                        <div class="form-group">
-                            <label for="content">Add Comment</label>
-                            <textarea class="form-control" id="content" name="content" rows="3" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
-                @endauth
+                @include('articles.partials.comment-form')
 
-                @forelse ($article->comments as $comment)
-                    <div class="card comment-card">
-                        <div class="card-body">
-                            <p>{{ $comment->content }}</p>
-                            <small class="text-muted">
-                                By: {{ $comment->user->name ?? 'Unknown User' }}, {{ $comment->created_at->format('M d, Y H:i:s') }}
-                                @can('delete', $comment)
-                                    <form action="{{ route('comments.destroy', ['id' => $comment->id]) }}" method="POST" style="display: inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                                    </form>
-                                @endcan
-                            </small>
-                            <div class="reply-form mt-2">
-                                @auth
-                                    <form action="{{ route('comments.reply', ['id' => $comment->id]) }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="parent_id" value="{{ $comment->id }}">
-                                        <div class="form-group">
-                                            <textarea class="form-control" name="content" rows="2" placeholder="Reply to this comment..." required></textarea>
-                                        </div>
-                                        <button type="submit" class="btn btn-sm btn-primary">Reply</button>
-                                    </form>
-                                @endauth
-                            </div>
-
-                            @foreach ($comment->replies as $reply)
-                                <div class="card comment-card ml-4">
-                                    <div class="card-body">
-                                        <p>{{ $reply->content }}</p>
-                                        <small class="text-muted">
-                                            By: {{ $reply->user->name ?? 'Unknown User' }}, {{ $reply->created_at->format('M d, Y H:i:s') }}
-                                            @can('delete', $reply)
-                                                <form action="{{ route('comments.destroy', ['id' => $reply->id]) }}" method="POST" style="display: inline;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                                                </form>
-                                            @endcan
-                                        </small>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                @empty
-                    <p>No comments yet. Be the first to comment!</p>
-                @endforelse
+                @foreach ($article->comments()->whereNull('parent_id')->get() as $comment)
+                    @include('articles.partials.comment', ['comment' => $comment])
+                @endforeach
 
             </div>
         </div>

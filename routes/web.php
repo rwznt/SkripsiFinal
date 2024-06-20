@@ -9,6 +9,7 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\UserController;
+//use App\Http\Controllers\NotificationController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -63,6 +64,11 @@ Route::middleware(['auth'])->group(function () {
 
     //User related routes
     Route::get('users/{user}', [UserController::class, 'show'])->name('users.show');
+    /*
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notification');
+    Route::get('/notifications/unread', [NotificationController::class, 'unreadNotifications'])->name('notifications.unread');
+    Route::put('/notifications/{notificationId}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+    */
 
     //Follow related routes
     Route::post('/user/{userId}/follow', [AccountController::class, 'follow'])->name('user.follow');

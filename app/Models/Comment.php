@@ -9,11 +9,26 @@ class Comment extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['article_id', 'user_id', 'parent_id', 'content'];
+    protected $fillable = [
+        'article_id',
+        'user_id',
+        'content',
+        'parent_id',
+    ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function replies()
     {
         return $this->hasMany(Comment::class, 'parent_id')->orderBy('created_at', 'asc');
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(Comment::class, 'parent_id');
     }
 
     public function article()
@@ -21,13 +36,22 @@ class Comment extends Model
         return $this->belongsTo(Article::class);
     }
 
-    public function user()
+    public function isReply()
     {
-        return $this->belongsTo(User::class);
+        return $this->parent_id !== null;
     }
 
-    public function parent()
+    public function scopeTopLevel($query)
     {
-        return $this->belongsTo(Comment::class, 'parent_id');
+        return $query->whereNull('parent_id');
+    }
+
+    public function findUltimateParent($parent_id)
+    {
+        $comment = $this->find($parent_id);
+        if ($comment->parent_id) {
+            return $this->findUltimateParent($comment->parent_id);
+        }
+        return $comment;
     }
 }

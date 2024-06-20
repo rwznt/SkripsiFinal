@@ -15,11 +15,12 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
-        $table->foreignId('article_id')->constrained()->onDelete('cascade');
-        $table->foreignId('user_id')->constrained()->onDelete('cascade');
-        $table->text('content');
-        $table->foreignId('parent_id')->nullable()->constrained('comments')->onDelete('cascade');
-        $table->timestamps();
+            $table->foreignId('article_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->text('content');
+            $table->foreignId('parent_id')->nullable()->constrained('comments')->onDelete('cascade');
+            $table->timestamps();
+            $table->boolean('isReply')->default(false);
         });
     }
 
@@ -31,9 +32,6 @@ return new class extends Migration
     public function down()
     {
         Schema::dropIfExists('comments');
-        Schema::table('comments', function (Blueprint $table) {
-            $table->dropForeign(['parent_id']);
-            $table->dropColumn('parent_id');
-        });
+
     }
 };
