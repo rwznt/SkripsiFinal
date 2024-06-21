@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Comment;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
@@ -22,6 +23,8 @@ class CommentController extends Controller
         $comment->content = $validatedData['content'];
         $comment->save();
 
+        Notification::createCommentNotification($comment);
+
         return redirect()->back()->with('success', 'Comment added successfully.');
     }
 
@@ -31,7 +34,6 @@ class CommentController extends Controller
 
         $this->authorize('delete', $comment);
 
-        // Delete the comment and its replies recursively
         $this->deleteCommentAndReplies($comment);
 
         return back()->with('success', 'Comment deleted successfully.');
@@ -39,12 +41,10 @@ class CommentController extends Controller
 
     private function deleteCommentAndReplies($comment)
     {
-        // Recursively delete replies
         foreach ($comment->replies as $reply) {
             $this->deleteCommentAndReplies($reply);
         }
 
-        // Then delete the comment itself
         $comment->delete();
     }
 
@@ -54,10 +54,8 @@ class CommentController extends Controller
             'content' => 'required|string',
         ]);
 
-        // Find the parent comment
         $parentComment = Comment::findOrFail($id);
 
-        // Create a new comment instance for reply
         $reply = new Comment();
         $reply->content = $request->input('content');
         $reply->user_id = auth()->id();

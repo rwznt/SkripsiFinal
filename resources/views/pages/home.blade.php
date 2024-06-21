@@ -49,7 +49,7 @@
         <div class="row flex-nowrap overflow-auto">
             @foreach ($categories as $kategori)
                 <div class="col-auto">
-                    <a href="{{ route('articles.by_category', ['category' => $kategori->id]) }}" class="btn btn-primary">{{ $kategori->name }}</a>
+                    <a href="{{ route('articles.by_category', $kategori) }}" class="btn btn-primary">{{ $kategori->name }}</a>
                 </div>
             @endforeach
         </div>
@@ -58,16 +58,16 @@
 
 <div class="welcome-section">
     <div class="container">
-        <div class="words">
+        <div class="words text-center">
             <div class="leadword">
-                <h1>Welcome To</h1>
-                <h1>ArtiCreate</h1>
+                <h1 class="display-3">Welcome To</h1>
+                <h1 class="display-3">ArtiCreate</h1>
             </div>
             <div class="leaddesc">
-                <p>A website that lets you channel your ideas into writings in the form of an article</p>
+                <p class="lead">A website that lets you channel your ideas into writings in the form of an article</p>
             </div>
         </div>
-        <div class="button">
+        <div class="button text-center">
             @auth
                 <a href="{{ route('create') }}" class="btn btn-dark btn-lg">Start Writing</a>
             @else
@@ -77,17 +77,27 @@
     </div>
 </div>
 
-<div class="start">
+<div class="start py-5">
     <div class="container my-5">
         <div class="row">
             <div class="col-md-6">
-                <h2>You can also read articles</h2>
+                <h2 class="display-5">You can also read articles</h2>
             </div>
             <div class="col-md-6">
-                <p>Start reading by clicking the categories that interest you at the top, or use the search bar to find specific articles.</p>
+                <p class="lead">Start reading by clicking the categories that interest you at the top, or use the search bar to find specific articles.</p>
             </div>
         </div>
     </div>
 </div>
+
+<div class="container">
+    <div class="latest-articles-section py-5">
+        <h2 class="display-5 text-center">Latest Articles</h2>
+        <div class="row">
+            @include('articles.latest')
+        </div>
+    </div>
+</div>
+
 
 @endsection

@@ -70,8 +70,8 @@ class ProfileController extends Controller
         $user->save();
 
         if (Session::has('just_registered')) {
-            Session::forget('just_registered'); // Clear the session variable
-            return redirect('/')->with('success', 'Profile updated successfully!'); // Redirect to home
+            Session::forget('just_registered');
+            return redirect('/')->with('success', 'Profile updated successfully!');
         }
 
         return redirect()->route('profile')->with('success', 'Profile updated successfully!');

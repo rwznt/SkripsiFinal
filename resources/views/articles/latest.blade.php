@@ -1,7 +1,3 @@
-@extends('layout.app')
-
-@section('content')
-
 <style>
     .pagination {
         margin-top: 20px;
@@ -19,8 +15,7 @@
 </style>
 
 <div class="container">
-    <h1>{{ $title }}</h1>
-
+    
     @if(session('success'))
         <div class="alert alert-success" role="alert" id="success-alert">
             {{ session('success') }}
@@ -75,4 +70,3 @@
         }, 5000);
     });
 </script>
-@endsection

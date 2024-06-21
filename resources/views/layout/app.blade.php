@@ -138,13 +138,20 @@
                         @endguest
                         @auth
                             @if (Auth::user()->role == 'admin')
+                                <li class="nav-item">
+                                    <a class="nav-link bi bi-bell" href="{{ route('notifications.index') }}">
+                                        Notifications
+                                        @if (Auth::user()->unreadNotifications->count() > 0)
+                                            <span class="badge badge-danger">{{ Auth::user()->unreadNotifications->count() }}</span>
+                                        @endif
+                                    </a>
+                                </li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle bi bi-journals" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         Manage
                                     </a>
                                     <ul class="dropdown-menu mymenu" aria-labelledby="navbarDropdown">
                                         <li><a class="nav-link bi bi-journal-check" href="{{route('review')}}">Review Article</a></li>
-                                        <li><a class="nav-link bi" href="{{ url('latest') }}">Latest Article</a></li>
                                     </ul>
                                 </li>
                                 <li class="nav-item dropdown">
@@ -161,8 +168,13 @@
                                 </li>
                             @endif
                             @if (Auth::user()->role == 'user')
-                                <li class="nav-item {{ Request()->is('latest') ? 'active' : '' }}">
-                                    <a class="nav-link bi" href="{{ url('latest') }}">Latest Article</a>
+                                <li class="nav-item">
+                                    <a class="nav-link bi bi-bell" href="{{ route('notifications.index') }}">
+                                        Notifications
+                                        @if (Auth::user()->unreadNotifications->count() > 0)
+                                            <span class="badge badge-danger">{{ Auth::user()->unreadNotifications->count() }}</span>
+                                        @endif
+                                    </a>
                                 </li>
                                 <li class="nav-item {{ Request()->is('create') ? 'active' : '' }}">
                                     <a class="nav-link bi bi-pen" href="{{ route('create') }}">Create</a>

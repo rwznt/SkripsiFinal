@@ -10,7 +10,11 @@ class Article extends Model
     use HasFactory;
     protected $guarded = [];
     protected $fillable = [
-        'category_id', 'title', 'image', 'content', 'likes_count'
+        'category_id',
+        'title',
+        'image',
+        'content',
+        'likes_count'
     ];
 
     public function category()
