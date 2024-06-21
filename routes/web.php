@@ -64,7 +64,7 @@ Route::middleware(['auth'])->group(function () {
 
     //User related routes
     Route::get('users/{user}', [UserController::class, 'show'])->name('users.show');
-    Route::get('notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::get('notifications', [NotificationController::class, 'show'])->name('notifications.show');
     Route::post('notifications/{notification}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('markAsRead');
 
     //Follow related routes

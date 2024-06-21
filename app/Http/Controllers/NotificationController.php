@@ -5,17 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Notification;
 use Illuminate\Http\Request;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class NotificationController extends Controller
 {
-    public function index()
+    public function show()
     {
         $user = Auth::user();
-        $user = new User();
-        $notifications = $user->notifications();
-        $notifications = $user->notifications()->orderBy('created_at', 'desc')->get();
+        $notifications = $user->notifications;
         $title = 'Notifications';
 
         return view('pages.notifications', compact('notifications', 'title'));

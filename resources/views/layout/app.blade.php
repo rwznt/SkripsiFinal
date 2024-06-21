@@ -139,7 +139,7 @@
                         @auth
                             @if (Auth::user()->role == 'admin')
                                 <li class="nav-item">
-                                    <a class="nav-link bi bi-bell" href="{{ route('notifications.index') }}">
+                                    <a class="nav-link bi bi-bell" href="{{ route('notifications.show') }}">
                                         Notifications
                                         @if (Auth::user()->unreadNotifications->count() > 0)
                                             <span class="badge badge-danger">{{ Auth::user()->unreadNotifications->count() }}</span>
@@ -169,7 +169,7 @@
                             @endif
                             @if (Auth::user()->role == 'user')
                                 <li class="nav-item">
-                                    <a class="nav-link bi bi-bell" href="{{ route('notifications.index') }}">
+                                    <a class="nav-link bi bi-bell" href="{{ route('notifications.show') }}">
                                         Notifications
                                         @if (Auth::user()->unreadNotifications->count() > 0)
                                             <span class="badge badge-danger">{{ Auth::user()->unreadNotifications->count() }}</span>

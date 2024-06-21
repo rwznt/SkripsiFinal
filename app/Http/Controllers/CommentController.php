@@ -23,7 +23,7 @@ class CommentController extends Controller
         $comment->content = $validatedData['content'];
         $comment->save();
 
-        Notification::createCommentNotification($comment);
+        Notification::createCommentNotification($comment, auth()->user());
 
         return redirect()->back()->with('success', 'Comment added successfully.');
     }

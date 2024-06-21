@@ -17,7 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('type');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->morphs('notifiable');
+            $table->string('notifiable_type'); // Add this column
+            $table->unsignedBigInteger('notifiable_id'); // Add this column
             $table->text('data');
             $table->timestamp('read_at')->nullable();
             $table->timestamps();
