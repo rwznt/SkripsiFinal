@@ -56,7 +56,7 @@ class ProfileController extends Controller
 
             $image = $request->file('image');
             $imageName = time().'.'.$image->getClientOriginalExtension();
-            $image->storeAs('profile_image', $imageName, 'public');
+            $image->storeAs('public/profile_image', $imageName);
 
             $user->image = $imageName;
         }
