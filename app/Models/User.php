@@ -21,7 +21,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role',
+        'nohp',
+        'address',
+        'image',
+        'gender',
+        'date_of_birth',
     ];
 
     /**
@@ -41,9 +45,11 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'date_of_birth' => 'date',
     ];
 
-    public function article() {
+    public function articles()
+    {
         return $this->hasMany(Article::class, 'user_id', 'id');
     }
 
@@ -57,20 +63,18 @@ class User extends Authenticatable
         return $this->role === 'admin';
     }
 
-    public function followees()
-    {
-        return $this->belongsToMany(User::class, 'user_follows', 'follower_id', 'followee_id')
-                    ->withTimestamps();
-    }
-
     public function isFollowing(User $user)
     {
-        return $this->followees()->where('followee_id', $user->id)->exists();
+        return $this->following()->where('following_id', $user->id)->exists();
     }
 
     public function following()
     {
-        return $this->belongsToMany(User::class, 'user_follows', 'follower_id', 'followee_id')
-                    ->withTimestamps();
+        return $this->belongsToMany(User::class, 'follows', 'follower_id', 'following_id');
+    }
+
+    public function followers()
+    {
+        return $this->belongsToMany(User::class, 'follows', 'following_id', 'follower_id');
     }
 }
