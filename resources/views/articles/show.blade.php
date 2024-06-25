@@ -150,7 +150,11 @@
                     <h5>Review Information</h5>
                     <p>Trust Factor: {{ $article->trustfactor }}</p>
                     <div class="progress">
-                        <div class="progress-bar" role="progressbar" style="width: {{ $article->trustfactor }}%;" aria-valuenow="{{ $article->trustfactor }}" aria-valuemin="0" aria-valuemax="100">{{ $article->trustfactor }}%</div>
+                        <div class="progress-bar" role="progressbar" style="width: {{ $article->trustfactor }}%; {{ $article->trustfactor <= 30 ? 'background-color: #dc3545;' : ($article->trustfactor <= 70 ? 'background-color: #ffc107;' : 'background-color: #28a745;') }}" aria-valuenow="{{ $article->trustfactor }}" aria-valuemin="0" aria-valuemax="100">{{ $article->trustfactor }}%</div>
+                    <div class="legend">
+                        <span style="background-color: #dc3545; display: inline-block; width: 20px; height: 20px; margin-right: 10px;"></span> <span>0-30: Low Credibility</span><br>
+                        <span style="background-color: #ffc107; display: inline-block; width: 20px; height: 20px; margin-right: 10px;"></span> <span>31-70: Medium Credibility</span><br>
+                        <span style="background-color: #28a745; display: inline-block; width: 20px; height: 20px; margin-right: 10px;"></span> <span>71-100: High Credibility</span><br>
                     </div>
                     <p>Admin's Comment: {{ $article->admin_comment }}</p>
                 </div>
