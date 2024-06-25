@@ -61,8 +61,6 @@ class ArticleController extends Controller
         $article->image = $image_path;
         $article->save();
 
-        Notification::createNewArticleNotification($article, auth()->user());
-
         return redirect()->route('articles.show', ['article' => $article->id])->with('success', 'New Article has been created!');
     }
 
@@ -183,8 +181,6 @@ class ArticleController extends Controller
             $like->save();
 
             $article->increment('likes_count');
-
-            Notification::createLikeNotification($article, auth()->user());
 
             return redirect()->back()->with('success', 'Article liked successfully!');
         } else {

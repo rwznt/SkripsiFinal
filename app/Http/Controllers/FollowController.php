@@ -15,8 +15,6 @@ class FollowController extends Controller
     {
         if (Follow::follow($user)) {
 
-            Notification::createFollowNotification($user);
-
             return redirect()->back()->with('success', 'You are now following ' . $user->name);
         } else {
             return redirect()->back()->with('error', 'Failed to follow ' . $user->name);

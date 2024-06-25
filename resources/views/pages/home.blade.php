@@ -90,14 +90,4 @@
     </div>
 </div>
 
-<div class="container">
-    <div class="latest-articles-section py-5">
-        <h2 class="display-5 text-center">Latest Articles</h2>
-        <div class="row">
-            @include('articles.latest')
-        </div>
-    </div>
-</div>
-
-
 @endsection

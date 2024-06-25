@@ -139,11 +139,8 @@
                         @auth
                             @if (Auth::user()->role == 'admin')
                                 <li class="nav-item">
-                                    <a class="nav-link bi bi-bell" href="{{ route('notifications.show') }}">
-                                        Notifications
-                                        @if (Auth::user()->unreadNotifications->count() > 0)
-                                            <span class="badge badge-danger">{{ Auth::user()->unreadNotifications->count() }}</span>
-                                        @endif
+                                    <a class="nav-link bi bi-journal-text" href="{{ route('articles.index') }}">
+                                        Latest
                                     </a>
                                 </li>
                                 <li class="nav-item dropdown">
@@ -169,11 +166,8 @@
                             @endif
                             @if (Auth::user()->role == 'user')
                                 <li class="nav-item">
-                                    <a class="nav-link bi bi-bell" href="{{ route('notifications.show') }}">
-                                        Notifications
-                                        @if (Auth::user()->unreadNotifications->count() > 0)
-                                            <span class="badge badge-danger">{{ Auth::user()->unreadNotifications->count() }}</span>
-                                        @endif
+                                    <a class="nav-link bi bi-journal-text" href="{{ route('articles.index') }}">
+                                        Latest
                                     </a>
                                 </li>
                                 <li class="nav-item {{ Request()->is('create') ? 'active' : '' }}">

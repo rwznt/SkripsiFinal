@@ -78,24 +78,4 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(User::class, 'follows', 'following_id', 'follower_id');
     }
-
-    public function notifications()
-    {
-        return $this->hasMany(Notification::class, 'user_id', 'id');
-    }
-
-    public function unreadNotifications()
-    {
-        return $this->hasMany(Notification::class)->whereNull('read_at');
-    }
-
-    public function readNotifications()
-    {
-        return $this->hasMany(Notification::class)->whereNotNull('read_at');
-    }
-
-    public function markNotificationsAsRead()
-    {
-        $this->unreadNotifications()->update(['read_at' => now()]);
-    }
 }
