@@ -4,10 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Article;
 use App\Models\Comment;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
@@ -31,11 +28,38 @@ class CommentController extends Controller
     {
         $comment = Comment::findOrFail($id);
 
-        // Authorize the 'delete' action using the CommentPolicy
         $this->authorize('delete', $comment);
 
-        $comment->delete();
+        $this->deleteCommentAndReplies($comment);
 
         return back()->with('success', 'Comment deleted successfully.');
     }
+
+    private function deleteCommentAndReplies($comment)
+    {
+        foreach ($comment->replies as $reply) {
+            $this->deleteCommentAndReplies($reply);
+        }
+
+        $comment->delete();
+    }
+
+    public function reply(Request $request, $id)
+    {
+        $request->validate([
+            'content' => 'required|string',
+        ]);
+
+        $parentComment = Comment::findOrFail($id);
+
+        $reply = new Comment();
+        $reply->content = $request->input('content');
+        $reply->user_id = auth()->id();
+        $reply->article_id = $parentComment->article_id;
+        $reply->parent_id = $parentComment->id;
+        $reply->save();
+
+        return redirect()->back()->with('success', 'Reply added successfully.');
+    }
 }
+
