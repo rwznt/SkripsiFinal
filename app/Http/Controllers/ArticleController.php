@@ -4,24 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use App\Models\Category;
-use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
-use App\Models\Comment;
 use App\Models\Like;
 use Illuminate\Support\Str;
 
 class ArticleController extends Controller
 {
+
     public function index()
     {
         $title = 'Latest Articles';
-        $articles = Article::latest()->get();
+        $articles = Article::latest()->paginate(10);
 
-        return view('articles.latest', compact('title', 'articles'));
+        return view('pages.latest', compact('title', 'articles'));
     }
 
     public function create()
@@ -46,16 +42,13 @@ class ArticleController extends Controller
             $image = $request->file('image');
             $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
 
-            // Store the file in 'public/img'
             $image->move(public_path('img'), $name_gen);
 
-            // Save the path relative to 'public/img'
             $image_path = 'img/' . $name_gen;
         } else {
             return back()->withErrors(['image' => 'Please upload an image file.']);
         }
 
-        // Create new article
         $article = new Article();
         $article->category_id = $request->dropdown;
         $article->user_id = auth()->id();
@@ -81,42 +74,38 @@ class ArticleController extends Controller
     }
 
     public function update(Request $request, $id)
-{
-    // Validate incoming request data
-    $request->validate([
-        'category_id' => 'required',
-        'title' => 'required|max:255',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10240', // Max size 10MB
-        'content' => 'required'
-    ]);
+    {
+        $request->validate([
+            'category_id' => 'required',
+            'title' => 'required|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10240',
+            'content' => 'required'
+        ]);
 
-    // Find the article by its ID
-    $article = Article::findOrFail($id);
+        $article = Article::findOrFail($id);
 
-    // Store the existing image path to avoid accidental deletion
-    $oldImage = $article->image;
+        $oldImage = $article->image;
 
-    // Handle image upload if a new image file is provided
-    if ($request->hasFile('image')) {
-        $image = $request->file('image');
-        $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
 
-        $image->move(public_path('img'), $name_gen);
+            $image->move(public_path('img'), $name_gen);
 
-        if ($oldImage && !Str::contains($oldImage, 'placeholder-image.png') && Storage::exists($oldImage)) {
-            Storage::delete($oldImage);
+            if ($oldImage && !Str::contains($oldImage, 'placeholder-image.png') && Storage::exists($oldImage)) {
+                Storage::delete($oldImage);
+            }
+
+            $article->image = 'img/' . $name_gen;
         }
 
-        $article->image = 'img/' . $name_gen;
+        $article->category_id = $request->category_id;
+        $article->title = $request->title;
+        $article->content = $request->content;
+        $article->save();
+
+        return redirect()->route('articles.index')->with('success', 'Article Successfully Updated');
     }
-
-    $article->category_id = $request->category_id;
-    $article->title = $request->title;
-    $article->content = $request->content;
-    $article->save();
-
-    return redirect()->route('articles.index')->with('success', 'Article Successfully Updated');
-}
 
     public function destroy($id)
     {
@@ -172,61 +161,47 @@ class ArticleController extends Controller
 
                            $title = "Articles in Category: " . $category->name;
 
-                           return view('articles.by_category', compact('category', 'articles', 'title'));
+        $articles = $category->articles()->paginate(10);
+
+        return view('articles.by_category', compact('category', 'articles', 'title'));
     }
 
-    public function like(Request $request, $id)
-{
-    $article = Article::findOrFail($id);
-    $userId = auth()->id();
-
-
-    if (!$article->likes()->where('user_id', $userId)->exists()) {
-        $like = new Like();
-        $like->article_id = $article->id;
-        $like->user_id = $userId;
-        $like->save();
-
-        $article->increment('likes_count');
-
-        return redirect()->back()->with('success', 'Article liked successfully!');
-    } else {
-        return redirect()->back()->with('error', 'You have already liked this article!');
-    }
-}
-
-public function unlike(Request $request, $id)
-{
-    $article = Article::findOrFail($id);
-    $userId = auth()->id();
-
-    $like = $article->likes()->where('user_id', $userId)->first();
-
-    if ($like) {
-
-        $like->delete();
-        $article->decrement('likes_count');
-
-        return redirect()->back()->with('success', 'Article unliked successfully!');
-    } else {
-        return redirect()->back()->with('error', 'You have not liked this article!');
-    }
-}
-
-    public function comment(Request $request, $id)
+    public function like($id)
     {
-        $request->validate([
-            'content' => 'required|string|max:255',
-        ]);
-
         $article = Article::findOrFail($id);
-        $comment = new Comment();
-        $comment->article_id = $article->id;
-        $comment->user_id = auth()->id();
-        $comment->content = $request->input('content');
-        $comment->save();
+        $userId = auth()->id();
 
-        return redirect()->back()->with('success', 'Comment added!');
+
+        if (!$article->likes()->where('user_id', $userId)->exists()) {
+            $like = new Like();
+            $like->article_id = $article->id;
+            $like->user_id = $userId;
+            $like->save();
+
+            $article->increment('likes_count');
+
+            return redirect()->back()->with('success', 'Article liked successfully!');
+        } else {
+            return redirect()->back()->with('error', 'You have already liked this article!');
+        }
     }
-}
 
+    public function unlike($id)
+    {
+        $article = Article::findOrFail($id);
+        $userId = auth()->id();
+
+        $like = $article->likes()->where('user_id', $userId)->first();
+
+        if ($like) {
+
+            $like->delete();
+            $article->decrement('likes_count');
+
+            return redirect()->back()->with('success', 'Article unliked successfully!');
+        } else {
+            return redirect()->back()->with('error', 'You have not liked this article!');
+        }
+    }
+
+}
