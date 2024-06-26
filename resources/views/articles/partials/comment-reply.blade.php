@@ -11,8 +11,7 @@
                 </form>
             @endcan
         </small>
-
-        {{-- Check if this is a direct reply to a comment --}}
+        
         @if (!isset($isNested) || !$isNested)
             <div class="nested-comments">
                 <small class="text-muted">
@@ -24,7 +23,6 @@
             </div>
         @endif
 
-        {{-- Reply Form for Nested Reply --}}
         @auth
             <div class="reply-form mt-2">
                 <form action="{{ route('comments.reply', ['id' => $reply->parent_id]) }}" method="POST">

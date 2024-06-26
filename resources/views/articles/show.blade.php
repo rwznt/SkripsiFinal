@@ -162,8 +162,6 @@
                                     </div>
                                 </div>
                             </div>
-                        @else
-                        <p class="verified-message">This article is verified as it's made by Admin.</p>
                         @endif
                     @endif
                 @endauth
@@ -197,6 +195,8 @@
                     </div>
                     <p>Admin's Comment: {{ $article->admin_comment }}</p>
                 </div>
+            @elseif(($article->is_admin))
+                <p class="verified-message">This article is verified as it's made by Admin.</p>
             @endif
 
             <hr>
