@@ -1,5 +1,11 @@
 @extends('layout.app')
 
+<style>
+    .article-category {
+        margin-top: 10px;
+    }
+</style>
+
 @section('content')
     <div class="container">
         <h1 class="my-4">Articles in Category: {{ $category->name }}</h1>

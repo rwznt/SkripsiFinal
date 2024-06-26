@@ -77,6 +77,13 @@
                 <p>No image available for this article.</p>
             @endif
 
+            <div class="article-meta">
+                <h6 class="article-category">
+                    Category:
+                    <a href="{{ route('articles.by_category', ['category' => $article->category->id]) }}">{{ $article->category->name }}</a>
+                </h6>
+            </div>
+
             <div class="article-content">
                 @foreach (explode("\n", $article->content) as $paragraph)
                     <p>{{ $paragraph }}</p>
@@ -126,6 +133,11 @@
                                         <div class="modal-body">
                                             <div class="form-group">
                                                 <label for="trustFactor">Trust Factor (1-100)</label>
+                                                <div class="legend">
+                                                    <span style="background-color: #dc3545; display: inline-block; width: 20px; height: 20px; margin-right: 10px;"></span> <span>0-30: Low Credibility</span><br>
+                                                    <span style="background-color: #ffc107; display: inline-block; width: 20px; height: 20px; margin-right: 10px;"></span> <span>31-70: Medium Credibility</span><br>
+                                                    <span style="background-color: #28a745; display: inline-block; width: 20px; height: 20px; margin-right: 10px;"></span> <span>71-100: High Credibility</span><br>
+                                                </div>
                                                 <input type="number" id="trustFactor" name="trustFactor" class="form-control" min="1" max="100" value="{{ $article->trustfactor ?? '' }}" required>
                                             </div>
                                             <div class="form-group">

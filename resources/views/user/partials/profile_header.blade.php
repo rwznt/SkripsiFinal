@@ -8,8 +8,8 @@
 
     <div class="d-flex justify-content-center mt-3">
         <div class="profile-stats">
-            <span><strong>{{ $followerCount }}</strong> Followers</span>
-            <span><strong>{{ $followingCount }}</strong> Following</span>
+            <span><strong>{{ $followerCount }}</strong> <a href="{{ route('user.follow-list', ['user' => $user->id]) }}">Followers</a></span>
+            <span><strong>{{ $followingCount }}</strong> <a href="{{ route('user.follow-list', ['user' => $user->id]) }}">Following</a></span>
         </div>
     </div>
 

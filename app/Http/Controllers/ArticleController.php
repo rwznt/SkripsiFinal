@@ -6,8 +6,6 @@ use App\Models\Article;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use App\Models\Comment;
-use App\Models\Notification;
 use App\Models\Like;
 use Illuminate\Support\Str;
 

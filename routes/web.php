@@ -64,11 +64,9 @@ Route::middleware(['auth'])->group(function () {
 
     //User related routes
     Route::get('users/{user}', [UserController::class, 'show'])->name('users.show');
-    Route::get('notifications', [NotificationController::class, 'show'])->name('notifications.show');
-    Route::post('notifications/{notification}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('markAsRead');
 
     //Follow related routes
     Route::post('/user/{userId}/follow', [AccountController::class, 'follow'])->name('user.follow');
     Route::delete('/user/{userId}/unfollow', [AccountController::class, 'unfollow'])->name('user.unfollow');
-
+    Route::get('/users/{user}/follow-list', [UserController::class, 'followList'])->name('user.follow-list');
 });
