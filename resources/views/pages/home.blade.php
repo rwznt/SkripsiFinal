@@ -90,4 +90,8 @@
     </div>
 </div>
 
+<div class='container'>
+    @include('pages.partials.latest')
+</div>
+
 @endsection
