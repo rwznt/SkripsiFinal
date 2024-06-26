@@ -1,5 +1,9 @@
 @extends('layout.app')
 
+@php
+$isAdmin = Auth::user()->isAdmin();
+@endphp
+
 @section('content')
 
 <style>
@@ -78,6 +82,9 @@
     <form action="{{ route('store') }}" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
         @csrf
         <div class="form-group">
+            @if ($isAdmin)
+            <input type="hidden" name="is_admin" value="{{ $isAdmin ? 1 : 0 }}">
+            @endif
             <label for="dropdown">Choose a category:</label>
             <select name="dropdown" id="dropdown" class="form-control" required>
                 <option value="">Select Category...</option>
@@ -107,7 +114,7 @@
             <textarea id="content" name="content" class="form-control" placeholder="Content" rows="6" required></textarea>
             <div class="invalid-feedback">Please enter the content.</div>
         </div>
-        
+
         <button type="submit" class="btn btn-primary btn-block">Submit</button>
     </form>
 </div>

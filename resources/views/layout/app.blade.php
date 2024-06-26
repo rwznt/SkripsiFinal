@@ -149,6 +149,7 @@
                                     </a>
                                     <ul class="dropdown-menu mymenu" aria-labelledby="navbarDropdown">
                                         <li><a class="nav-link bi bi-journal-check" href="{{route('review')}}">Review Article</a></li>
+                                        <li><a class="nav-link bi bi-pen" href="{{ route('create') }}">Create</a></li>
                                     </ul>
                                 </li>
                                 <li class="nav-item dropdown">

@@ -14,7 +14,8 @@ class Article extends Model
         'title',
         'image',
         'content',
-        'likes_count'
+        'likes_count',
+        'is_admin'
     ];
 
     public function category()
@@ -41,5 +42,4 @@ class Article extends Model
     {
         return $this->likes()->where('user_id', $userId)->exists();
     }
-
 }

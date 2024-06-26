@@ -43,7 +43,13 @@
         margin-left: 20px;
     }
 
-
+    .verified-message {
+        color: green;
+        font-weight: bold;
+        padding: 10px;
+        border: 1px solid green;
+        border-radius: 5px;
+    }
 </style>
 
 <div class="container">
@@ -121,40 +127,44 @@
 
                 @auth
                     @if (auth()->user()->isAdmin())
-                        <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#editReviewModal">Edit Review</button>
-                        <div class="modal fade" id="editReviewModal" tabindex="-1" aria-labelledby="editReviewModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <form action="{{ route('article.review.update', ['id' => $article->id]) }}" method="POST">
-                                        @csrf
-                                        @method('PUT')
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="editReviewModalLabel">Edit Review</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="form-group">
-                                                <label for="trustFactor">Trust Factor (1-100)</label>
-                                                <div class="legend">
-                                                    <span style="background-color: #dc3545; display: inline-block; width: 20px; height: 20px; margin-right: 10px;"></span> <span>0-30: Low Credibility</span><br>
-                                                    <span style="background-color: #ffc107; display: inline-block; width: 20px; height: 20px; margin-right: 10px;"></span> <span>31-70: Medium Credibility</span><br>
-                                                    <span style="background-color: #28a745; display: inline-block; width: 20px; height: 20px; margin-right: 10px;"></span> <span>71-100: High Credibility</span><br>
+                        @if(!($article->is_admin))
+                            <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#editReviewModal">Edit Review</button>
+                            <div class="modal fade" id="editReviewModal" tabindex="-1" aria-labelledby="editReviewModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <form action="{{ route('article.review.update', ['id' => $article->id]) }}" method="POST">
+                                            @csrf
+                                            @method('PUT')
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="editReviewModalLabel">Edit Review</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label for="trustFactor">Trust Factor (1-100)</label>
+                                                    <div class="legend">
+                                                        <span style="background-color: #dc3545; display: inline-block; width: 20px; height: 20px; margin-right: 10px;"></span> <span>0-30: Low Credibility</span><br>
+                                                        <span style="background-color: #ffc107; display: inline-block; width: 20px; height: 20px; margin-right: 10px;"></span> <span>31-70: Medium Credibility</span><br>
+                                                        <span style="background-color: #28a745; display: inline-block; width: 20px; height: 20px; margin-right: 10px;"></span> <span>71-100: High Credibility</span><br>
+                                                    </div>
+                                                    <input type="number" id="trustFactor" name="trustFactor" class="form-control" min="1" max="100" value="{{ $article->trustfactor ?? '' }}" required>
                                                 </div>
-                                                <input type="number" id="trustFactor" name="trustFactor" class="form-control" min="1" max="100" value="{{ $article->trustfactor ?? '' }}" required>
+                                                <div class="form-group">
+                                                    <label for="adminComment">Admin's Comment</label>
+                                                    <textarea id="adminComment" name="adminComment" class="form-control" rows="3">{{ $article->admin_comment ?? '' }}</textarea>
+                                                </div>
                                             </div>
-                                            <div class="form-group">
-                                                <label for="adminComment">Admin's Comment</label>
-                                                <textarea id="adminComment" name="adminComment" class="form-control" rows="3">{{ $article->admin_comment ?? '' }}</textarea>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary">Save Changes</button>
                                             </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-primary">Save Changes</button>
-                                        </div>
-                                    </form>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @else
+                        <p class="verified-message">This article is verified as it's made by Admin.</p>
+                        @endif
                     @endif
                 @endauth
             </div>
