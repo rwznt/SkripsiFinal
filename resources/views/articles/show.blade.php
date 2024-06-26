@@ -175,6 +175,7 @@
             <hr>
 
             <div class="comment-section">
+
                 <h5>Comments</h5>
 
                 @include('articles.partials.comment-form')

@@ -1,4 +1,5 @@
 @auth
+
     <form action="{{ route('comments.store') }}" method="POST" class="mb-3">
         @csrf
         <input type="hidden" name="article_id" value="{{ $article->id }}">
@@ -8,4 +9,6 @@
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
+@else
+    <a href="{{ route('login') }}" class="btn btn-dark btn-lg">Log in to Comment</a>
 @endauth
