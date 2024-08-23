@@ -8,9 +8,10 @@ use App\Models\Category;
 
 class CategoryController extends Controller
 {
-    public function indexAction()
+    public function index()
     {
-        $categories = Category::latest()->get();
-        return view();
+        $categories = Category::all();
+        
+        return view('');
     }
 }
