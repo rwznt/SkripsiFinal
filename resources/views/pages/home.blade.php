@@ -1,32 +1,97 @@
 @extends('layout.app')
+
 @section('content')
-@
 
 <style>
+    .words {
+        text-align: center;
+        margin-top: 50px;
+    }
+
+    .leadword h1 {
+        font-size: 3rem;
+        margin-bottom: 10px;
+    }
+
+    .leaddesc p {
+        font-size: 1.2rem;
+        margin-top: 20px;
+    }
+
+    .button {
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    .category-scroll-wrapper {
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+
+    .start {
+        background-color: #f7f7f7;
+        padding: 50px 0;
+    }
+
+    .start h2 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+    }
+
+    .start p {
+        font-size: 1.1rem;
+        line-height: 1.6;
+    }
 </style>
 
-<div id="carouselExample" class="carousel slide">
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-            <img src="..." class="d-block w-100" alt="...">
-        </div>
-        <div class="carousel-item">
-            <img src="..." class="d-block w-100" alt="...">
-        </div>
-        <div class="carousel-item">
-            <img src="..." class="d-block w-100" alt="...">
+<div class="container">
+    <div class="category-scroll-wrapper text-center">
+        <div class="row flex-nowrap overflow-auto">
+            @foreach ($categories as $kategori)
+                <div class="col-auto">
+                    <a href="{{ route('articles.by_category', $kategori) }}" class="btn btn-primary">{{ $kategori->name }}</a>
+                </div>
+            @endforeach
         </div>
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
 </div>
+
+<div class="welcome-section">
+    <div class="container">
+        <div class="words text-center">
+            <div class="leadword">
+                <h1 class="display-3">Welcome To</h1>
+                <h1 class="display-3">ArtiCreate</h1>
+            </div>
+            <div class="leaddesc">
+                <p class="lead">A website that lets you channel your ideas into writings in the form of an article</p>
+            </div>
+        </div>
+        <div class="button text-center">
+            @auth
+                <a href="{{ route('create') }}" class="btn btn-dark btn-lg">Start Writing</a>
+            @else
+                <a href="{{ route('login') }}" class="btn btn-dark btn-lg">Log in to Start Writing</a>
+            @endauth
+        </div>
+    </div>
+</div>
+
+<div class="start py-5">
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-md-6">
+                <h2 class="display-5">You can also read articles</h2>
+            </div>
+            <div class="col-md-6">
+                <p class="lead">Start reading by clicking the categories that interest you at the top, or use the search bar to find specific articles.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class='container'>
+    @include('pages.partials.latest')
+</div>
+
 @endsection
-
-
-
