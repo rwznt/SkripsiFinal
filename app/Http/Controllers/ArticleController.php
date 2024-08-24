@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Like;
 use Illuminate\Support\Str;
+use Mews\Purifier\Facades\Purifier;
 
 class ArticleController extends Controller
 {
@@ -22,10 +23,12 @@ class ArticleController extends Controller
 
     public function create()
     {
+        $content = Purifier::clean(old('content'));
+
         $categories = Category::all();
         return view('articles.create', [
            'categories' => $categories,
-           'title' => 'Create New Article'
+           'title' => 'Create New Article',
         ]);
     }
 
@@ -37,31 +40,31 @@ class ArticleController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:10240',
             'content' => 'required',
         ]);
-    
+
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
-        
+
             $image->move(public_path('img'), $name_gen);
-        
+
             $image_path = 'img/' . $name_gen;
         } else {
             return back()->withErrors(['image' => 'Please upload an image file.']);
         }
-    
+
         $isAdmin = $request->input('is_admin', false);
-    
+
         $article = new Article();
         $article->category_id = $request->dropdown;
         $article->user_id = auth()->id();
         $article->title = $request->title;
-        $article->content = $request->content;
+        $article->content = Purifier::clean($request->input('content'));
         $article->post_date = now()->format('Y-m-d');
         $article->post_month = now()->format('F');
         $article->image = $image_path;
         $article->is_admin = $isAdmin;
         $article->save();
-    
+
         return redirect()->route('articles.show', ['article' => $article->id])->with('success', 'New Article has been created!');
     }
 
@@ -104,7 +107,7 @@ class ArticleController extends Controller
 
         $article->category_id = $request->category_id;
         $article->title = $request->title;
-        $article->content = $request->content;
+        $article->content = Purifier::clean($request->input('content'));
         $article->save();
 
         return redirect()->route('articles.index')->with('success', 'Article Successfully Updated');

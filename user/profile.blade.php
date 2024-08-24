@@ -76,7 +76,7 @@
                         @if ($user->image)
                             <img src="{{ asset('storage/profile_image/' . $user->image) }}" class="profile-img" alt="Profile Picture">
                         @else
-                            <img src="{{ asset('images/default-picture.jpg') }}" class="profile-img" alt="Default Profile Picture">
+                            <img src="{{ asset('image/default-picture.jpg') }}" class="profile-img" alt="Default Profile Picture">
                         @endif
                     </div>
                     <table class="table">

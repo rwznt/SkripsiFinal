@@ -4,20 +4,20 @@
 
 <style>
 
-    .note-editor .dropdown-toggle::after { 
-        all: unset; 
+    .note-editor .dropdown-toggle::after {
+        all: unset;
     }
 
-	.note-editor .note-dropdown-menu { 
-        box-sizing: content-box; 
+	.note-editor .note-dropdown-menu {
+        box-sizing: content-box;
     }
 
-	.note-editor .note-modal-footer { 
-        box-sizing: content-box; 
+	.note-editor .note-modal-footer {
+        box-sizing: content-box;
     }
 
     .note-editor .note-editable {
-        line-height: 0.5;
+        line-height: 1;
     }
 
     .image-placeholder {
@@ -134,12 +134,11 @@
 <script>
     $(document).ready(function() {
         $('#content').summernote({
-            height: 300, // set editor height
-            minHeight: null, // set minimum height of editor
-            maxHeight: null, // set maximum height of editor
-            focus: true, 
+            height: 300,
+            minHeight: null,
+            maxHeight: null,
+            autofocus: false,
             toolbar: [
-              // [groupName, [list of button]]
               ['style', ['bold', 'italic', 'underline']],
               ['font', ['strikethrough', 'superscript', 'subscript']],
               ['fontname', ['fontname']],
@@ -148,7 +147,7 @@
               ['para', ['ul', 'ol', 'paragraph']],
               ['height', ['height']],
               ['insert', ['link', 'picture', 'video']]
-            ]// set focus to editable area after initializing summernote
+            ]
         });
     });
 

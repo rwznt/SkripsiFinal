@@ -7,20 +7,20 @@ $isAdmin = Auth::user()->isAdmin();
 @section('content')
 
 <style>
-    .note-editor .dropdown-toggle::after { 
-        all: unset; 
-    }
-	
-    .note-editor .note-dropdown-menu { 
-        box-sizing: content-box; 
+    .note-editor .dropdown-toggle::after {
+        all: unset;
     }
 
-	.note-editor .note-modal-footer { 
-        box-sizing: content-box; 
+    .note-editor .note-dropdown-menu {
+        box-sizing: content-box;
+    }
+
+	.note-editor .note-modal-footer {
+        box-sizing: content-box;
     }
 
     .note-editor .note-editable {
-        line-height: 0.5;
+        line-height: 1;
     }
 
     .image-placeholder {
@@ -141,10 +141,10 @@ $isAdmin = Auth::user()->isAdmin();
 <script>
     $(document).ready(function() {
         $('#content').summernote({
-            height: 300, 
-            minHeight: null, 
-            maxHeight: null, 
-            focus: true, 
+            height: 300,
+            minHeight: null,
+            maxHeight: null,
+            autofocus: false,
             toolbar: [
               ['style', ['bold', 'italic', 'underline']],
               ['font', ['strikethrough', 'superscript', 'subscript']],

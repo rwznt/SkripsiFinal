@@ -15,7 +15,7 @@
 </style>
 
 <div class="container">
-    
+
     @if(session('success'))
         <div class="alert alert-success" role="alert" id="success-alert">
             {{ session('success') }}

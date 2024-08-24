@@ -7,6 +7,7 @@
         <title>{{ $title }} - Articreate</title>
         <link rel="dns-prefetch" href="//fonts.gstatic.com">
         <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+        <link rel="icon" type="image/svg+xml" href="{{ asset('image/logo.svg') }}">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <script type="text/javascript" src="//code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -141,51 +142,51 @@
                             @if (Auth::user()->role == 'admin')
                                 <li class="nav-item">
                                     <a class="nav-link bi bi-journal-text" href="{{ route('articles.index') }}">
-                                        Latest
+                                         Latest
                                     </a>
                                 </li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle bi bi-journals" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Manage
+                                         Manage
                                     </a>
                                     <ul class="dropdown-menu mymenu" aria-labelledby="navbarDropdown">
-                                        <li><a class="nav-link bi bi-journal-check" href="{{route('review')}}">Review Article</a></li>
-                                        <li><a class="nav-link bi bi-pen" href="{{ route('create') }}">Create</a></li>
+                                        <li><a class="nav-link bi bi-journal-check" href="{{route('review')}}"> Review Article</a></li>
+                                        <li><a class="nav-link bi bi-pen" href="{{ route('create') }}"> Create</a></li>
                                     </ul>
                                 </li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle bi bi-person" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Profile
+                                         Profile
                                     </a>
                                     <ul class="dropdown-menu mymenu" aria-labelledby="navbarDropdown">
                                         <li><a class="nav-link" href="{{ route('user.detail', ['id' => Auth::id()]) }}">{{ Auth::user()->name }}</a></li>
-                                        <li><a class="nav-link bi bi-person-gear" href="{{ route('profile') }}">Profile</a></li>
-                                        <li><a class="nav-link bi bi-person-lock" href="{{ route('password') }}">Password</a></li>
+                                        <li><a class="nav-link bi bi-person-gear" href="{{ route('profile') }}"> Profile</a></li>
+                                        <li><a class="nav-link bi bi-person-lock" href="{{ route('password') }}"> Password</a></li>
                                         <li><hr class="dropdown-divider bg-white"></li>
-                                        <li><a class="nav-link bi bi-box-arrow-right" href="{{ route('logout') }}">Log out</a></li>
+                                        <li><a class="nav-link bi bi-box-arrow-right" href="{{ route('logout') }}"> Log out</a></li>
                                     </ul>
                                 </li>
                             @endif
                             @if (Auth::user()->role == 'user')
                                 <li class="nav-item">
                                     <a class="nav-link bi bi-journal-text" href="{{ route('articles.index') }}">
-                                        Latest
+                                         Latest
                                     </a>
                                 </li>
                                 <li class="nav-item {{ Request()->is('create') ? 'active' : '' }}">
-                                    <a class="nav-link bi bi-pen" href="{{ route('create') }}">Create</a>
+                                    <a class="nav-link bi bi-pen" href="{{ route('create') }}"> Create</a>
                                 </li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle bi bi-person" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Profile
+                                         Profile
                                     </a>
                                     <ul class="dropdown-menu mymenu" aria-labelledby="navbarDropdown">
                                         <li><a class="nav-link" href="{{ route('user.detail', ['id' => Auth::id()]) }}">{{ Auth::user()->name }}</a></li>
-                                        <li><a class="nav-link bi bi-person-gear" href="{{ route('profile') }}">Profile</a></li>
-                                        <li><a class="nav-link bi bi-person-lock" href="{{ route('password') }}">Password</a></li>
+                                        <li><a class="nav-link bi bi-person-gear" href="{{ route('profile') }}"> Profile</a></li>
+                                        <li><a class="nav-link bi bi-person-lock" href="{{ route('password') }}"> Password</a></li>
                                         <li><hr class="dropdown-divider"></li>
                                         <li>
-                                            <a class="nav-link bi bi-box-arrow-right" href="{{ route('logout') }}">Log out</a>
+                                            <a class="nav-link bi bi-box-arrow-right" href="{{ route('logout') }}"> Log out</a>
                                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                                 @csrf
                                             </form>

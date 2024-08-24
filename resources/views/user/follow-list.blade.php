@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h2>Follow List</h2>
+                <h1 class="my-4 text-left">Follow List</h1>
                 <form action="" method="get">
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" name="keyword" value="{{ $keyword }}" placeholder="Search for users">
