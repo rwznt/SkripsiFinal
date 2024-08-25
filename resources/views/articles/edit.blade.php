@@ -17,7 +17,7 @@
     }
 
     .note-editor .note-editable {
-        line-height: 0.5;
+        line-height: 1;
     }
 
     .image-placeholder {
