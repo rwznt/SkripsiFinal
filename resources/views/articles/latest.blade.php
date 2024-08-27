@@ -38,7 +38,12 @@
                         @endif
                         <div>
                             <h5 class="mb-1">{{ $article->title }}</h5>
-                            <p class="mb-1">{{ Str::limit(strip_tags($article->content), 100) }}</p>
+                            <p class="mb-1">
+                                {{-- {{ Str::limit(strip_tags($article->content), 100) }} --}}
+                                @php
+                                   echo e(substr($article->content, 0, 100));
+                                @endphp
+                            </p>
                             <small>Created by: {{ $article->user->name }}</small>
                             <p>
                                 <small>at: {{ $article->created_at->setTimezone(config('app.timezone'))->format('M d, Y H:i') }}</small>
