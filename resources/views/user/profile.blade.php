@@ -2,7 +2,55 @@
 
 @section('content')
 
+
 <style>
+    body {
+        background: white;
+    }
+    .breadcrumb {
+        background-color: #f8f9fa;
+        border-radius: 0.25rem;
+    }
+    .breadcrumb-item + .breadcrumb-item::before {
+        content: ">";
+        color: #6c757d;
+    }
+    .breadcrumb-item a {
+        color: #007bff;
+        text-decoration: none;
+    }
+    .breadcrumb-item.active {
+        color: #6c757d;
+    }
+    .card {
+        border: none;
+        box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.05);
+    }
+    .card-body {
+        padding: 2rem;
+    }
+    .table td:first-child {
+        font-weight: bold;
+        width: 150px;
+    }
+    .table td:nth-child(2) {
+        width: 10px;
+    }
+    .btn-outline-dark {
+        color: #007bff;
+        border-color: #007bff;
+    }
+    .btn-outline-dark:hover {
+        color: #fff;
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+    .profile-img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid #dee2e6;
     body {
         background: white;
     }
@@ -53,7 +101,13 @@
     }
 </style>
 
+
 <div class="container">
+    @if(session('success'))
+    <div id="success-alert" class="alert alert-success" role="alert">
+        {{ session('success') }}
+    </div>
+    @endif
     @if(session('success'))
     <div id="success-alert" class="alert alert-success" role="alert">
         {{ session('success') }}
@@ -63,6 +117,7 @@
         <div class="col-md-12 mt-2">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/" class="text-decoration-none">Home</a></li>
                     <li class="breadcrumb-item"><a href="/" class="text-decoration-none">Home</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Profile</li>
                 </ol>
@@ -83,6 +138,7 @@
                         <tbody>
                             <tr>
                                 <td>Name</td>
+                                <td>:</td>
                                 <td>:</td>
                                 <td>{{ $user->name }}</td>
                             </tr>
@@ -107,6 +163,16 @@
                                 <td>{{ $user->date_of_birth ? \Carbon\Carbon::parse($user->date_of_birth)->format('d M Y') : '-' }}</td>
                             </tr>
                             <tr>
+                                <td>Gender</td>
+                                <td>:</td>
+                                <td>{{ $user->gender === 'L' ? 'Male' : 'Female' }}</td>
+                            </tr>
+                            <tr>
+                                <td>Date of Birth</td>
+                                <td>:</td>
+                                <td>{{ $user->date_of_birth ? \Carbon\Carbon::parse($user->date_of_birth)->format('d M Y') : '-' }}</td>
+                            </tr>
+                            <tr>
                                 <td>Address</td>
                                 <td>:</td>
                                 <td>{{ $user->address }}</td>
@@ -114,11 +180,27 @@
                         </tbody>
                     </table>
                     <a href="{{ route('editprofile') }}" class="btn btn-outline-dark bi bi-person-gear"> Edit Profile</a>
+                    <a href="{{ route('editprofile') }}" class="btn btn-outline-dark bi bi-person-gear"> Edit Profile</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+            var successAlert = document.getElementById('success-alert');
+            if (successAlert) {
+                successAlert.style.transition = "opacity 0.5s ease";
+                successAlert.style.opacity = 0;
+                setTimeout(function() {
+                    successAlert.remove();
+                }, 500);
+            }
+        }, 5000);
+    });
+</script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
