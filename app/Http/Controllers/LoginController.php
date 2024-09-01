@@ -78,7 +78,11 @@ class LoginController extends Controller
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
 
-            return redirect()->intended('/home');
+            if (session('fromTutorial')) {
+                return redirect()->route('create');
+            } else {
+                return redirect()->intended('/home');
+            }
         }
 
         $errors = [];
@@ -123,14 +127,14 @@ class LoginController extends Controller
     {
         return Socialite::driver('google')->redirect();
     }
-    
+
     public function googleCallback()
     {
         $user = Socialite::driver('google')->user();
-    
+
         // Check if the user exists in our database
         $existingUser = User::where('email', $user->getEmail())->first();
-    
+
         if ($existingUser) {
             // User exists, log them in
             Auth::login($existingUser, true);
@@ -142,7 +146,7 @@ class LoginController extends Controller
                 'email' => $user->getEmail(),
                 'password' => null, // We don't need a password for SSO users
             ]);
-        
+
             Auth::login($newUser, true);
             return redirect()->intended('/home');
         }

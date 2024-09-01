@@ -81,9 +81,9 @@
         <div class="button text-center">
             <p class="display-5">Ready to start?</p>
             @auth
-                <a href="{{ route('create') }}" class="btn btn-dark btn-lg">Start Articreating</a>
+                <a href="{{ route('set-from-tutorial') }}" class="btn btn-dark btn-lg">Start Articreating</a>
             @else
-                <a href="{{ route('login') }}" class="btn btn-dark btn-lg">Log in to Start Articreating </a>
+                <a href="{{ route('set-from-tutorial') }}" class="btn btn-dark btn-lg">Log in to Start Articreating </a>
             @endauth
         </div>
 

@@ -26,9 +26,8 @@ Route::get('login/google/callback', [LoginController::class, 'googleCallback']);
 Route::get('latest', [ArticleController::class, 'index'])->name('articles.index');
 Route::get('article/{article}', [ArticleController::class, 'show'])->name('articles.show');
 Route::get('category/{category}', [ArticleController::class, 'articlesByCategory'])->name('articles.by_category');
-Route::get('/tutorial', function () {
-    return view('pages.tutorial', ['title' => 'Tutorial']);
-})->name('tutorial');
+Route::get('/tutorial', [HomeController::class, 'tutorial'])->name('tutorial');
+Route::get('/set-from-tutorial', [HomeController::class, 'setFromTutorial'])->name('set-from-tutorial');
 
 //User related routes (public)
 Route::get('/user/{id}', [AccountController::class, 'show'])->name('user.detail');

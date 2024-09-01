@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Article;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -15,5 +16,21 @@ class HomeController extends Controller
         $articles = Article::latest()->take(3)->get();
         $title = 'Home';
         return view('pages.home', compact('categories', 'articles', 'title'));
+    }
+
+    public function tutorial()
+    {
+        $title = "Tutorial";
+        return view('pages.tutorial', compact('title'));
+    }
+
+    public function setFromTutorial()
+    {
+        if (Auth::check()) {
+            return redirect()->route('create');
+        } else {
+            session(['fromTutorial' => true]);
+            return redirect()->route('login');
+        }
     }
 }

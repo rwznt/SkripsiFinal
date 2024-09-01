@@ -72,10 +72,10 @@
                 @if (auth()->user()->articles->count() > 0)
                     <a href="{{ route('create') }}" class="btn btn-dark btn-lg">Start Writing</a>
                 @else
-                    <a href="{{ route('tutorial') }}" class="btn btn-dark btn-lg">Take a Tutorial</a>
+                <a href="{{ url('/tutorial') }}" class="btn btn-dark btn-lg">Take a Tutorial</a>
                 @endif
             @else
-                <a href="{{ route('tutorial') }}" class="btn btn-dark btn-lg">Take a Tutorial</a>
+            <a href="{{ url('/tutorial') }}" class="btn btn-dark btn-lg">Take a Tutorial</a>
             @endauth
 
         </div>
