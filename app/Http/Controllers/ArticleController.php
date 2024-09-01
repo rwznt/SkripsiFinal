@@ -36,9 +36,9 @@ class ArticleController extends Controller
     {
         $request->validate([
             'dropdown' => 'required',
-            'title' => 'required|max:255',
+            'title' => 'required|max:255|min:10',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:10240',
-            'content' => 'required',
+            'content' => 'required|min:150',
         ]);
 
         if ($request->hasFile('image')) {
