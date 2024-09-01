@@ -69,10 +69,15 @@
         </div>
         <div class="button text-center">
             @auth
-                <a href="{{ route('create') }}" class="btn btn-dark btn-lg">Start Writing</a>
+                @if (auth()->user()->articles->count() > 0)
+                    <a href="{{ route('create') }}" class="btn btn-dark btn-lg">Start Writing</a>
+                @else
+                    <a href="{{ route('tutorial') }}" class="btn btn-dark btn-lg">Take a Tutorial</a>
+                @endif
             @else
-                <a href="{{ route('login') }}" class="btn btn-dark btn-lg">Log in to Start Writing</a>
+                <a href="{{ route('tutorial') }}" class="btn btn-dark btn-lg">Take a Tutorial</a>
             @endauth
+
         </div>
     </div>
 </div>

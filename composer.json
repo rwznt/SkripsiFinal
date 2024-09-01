@@ -5,11 +5,14 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
-        "php": "^8.0.2",
+        "php": "^8.0",
         "beyondcode/laravel-websockets": "^1.14",
-        "guzzlehttp/guzzle": "^7.2",
+        "google/apiclient": "^2.17",
+        "guzzlehttp/guzzle": "^7.9",
+        "kreait/firebase-php": "^7.14",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
+        "laravel/socialite": "^5.15",
         "laravel/tinker": "^2.7",
         "mews/purifier": "^3.4",
         "pusher/pusher-php-server": "^7.2"
@@ -60,7 +63,11 @@
         "sort-packages": true,
         "allow-plugins": {
             "pestphp/pest-plugin": true
-        }
+        },
+        "platform": {
+            "php": "8.2.12"
+        },
+        "platform-check": false
     },
     "minimum-stability": "stable",
     "prefer-stable": true

@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class LoginController extends Controller
 {
@@ -114,5 +117,34 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect('/home');
+    }
+
+    public function googleLogin()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+    
+    public function googleCallback()
+    {
+        $user = Socialite::driver('google')->user();
+    
+        // Check if the user exists in our database
+        $existingUser = User::where('email', $user->getEmail())->first();
+    
+        if ($existingUser) {
+            // User exists, log them in
+            Auth::login($existingUser, true);
+            return redirect()->intended('/home');
+        } else {
+            // User doesn't exist, create a new one
+            $newUser = User::create([
+                'name' => $user->getName(),
+                'email' => $user->getEmail(),
+                'password' => null, // We don't need a password for SSO users
+            ]);
+        
+            Auth::login($newUser, true);
+            return redirect()->intended('/home');
+        }
     }
 }

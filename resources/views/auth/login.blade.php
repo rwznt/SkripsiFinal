@@ -41,7 +41,13 @@
     }
 
     .text-decoration-none {
-        color: #007bff; 
+        color: #007bff;
+    }
+
+    .google-logo {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
     }
 </style>
 
@@ -100,11 +106,17 @@
                                 <button type="submit" class="btn btn-outline-primary">
                                     {{ __('Login') }}
                                 </button>
+                            </div>
+                        </div>
+
+                        <div class="row mb-0">
+                            <div class="col-md-8 offset-md-4">
                                 <div class="mt-2">
                                     <p>Don’t have an account? <a href="/register" class="text-decoration-none">Sign Up</a></p>
                                 </div>
                             </div>
                         </div>
+
                     </form>
                 </div>
             </div>
