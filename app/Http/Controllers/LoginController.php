@@ -37,7 +37,12 @@ class LoginController extends Controller
 
         session()->put('just_registered', true);
 
-        return redirect()->route('editprofile')->with('success', 'Registration successful! Please complete your profile.');
+        if (session('fromLogin') && session('fromTutorial')) {
+            return redirect()->route('create');
+        } else {
+            session()->put('just_registered', true);
+            return redirect()->route('editprofile')->with('success', 'Registration successful! Please complete your profile.');
+        }
     }
 
     protected function validator(array $data)
@@ -80,6 +85,9 @@ class LoginController extends Controller
 
             if (session('fromTutorial')) {
                 return redirect()->route('create');
+            } elseif (session('fromLogin')) {
+                session()->put('fromLogin', true);
+                return redirect()->route('register');
             } else {
                 return redirect()->intended('/home');
             }
@@ -123,32 +131,32 @@ class LoginController extends Controller
         return redirect('/home');
     }
 
-    public function googleLogin()
-    {
-        return Socialite::driver('google')->redirect();
-    }
+    // public function googleLogin()
+    // {
+    //     return Socialite::driver('google')->redirect();
+    // }
 
-    public function googleCallback()
-    {
-        $user = Socialite::driver('google')->user();
+    // public function googleCallback()
+    // {
+    //     $user = Socialite::driver('google')->user();
 
-        // Check if the user exists in our database
-        $existingUser = User::where('email', $user->getEmail())->first();
+    //     // Check if the user exists in our database
+    //     $existingUser = User::where('email', $user->getEmail())->first();
 
-        if ($existingUser) {
-            // User exists, log them in
-            Auth::login($existingUser, true);
-            return redirect()->intended('/home');
-        } else {
-            // User doesn't exist, create a new one
-            $newUser = User::create([
-                'name' => $user->getName(),
-                'email' => $user->getEmail(),
-                'password' => null, // We don't need a password for SSO users
-            ]);
+    //     if ($existingUser) {
+    //         // User exists, log them in
+    //         Auth::login($existingUser, true);
+    //         return redirect()->intended('/home');
+    //     } else {
+    //         // User doesn't exist, create a new one
+    //         $newUser = User::create([
+    //             'name' => $user->getName(),
+    //             'email' => $user->getEmail(),
+    //             'password' => null, // We don't need a password for SSO users
+    //         ]);
 
-            Auth::login($newUser, true);
-            return redirect()->intended('/home');
-        }
-    }
+    //         Auth::login($newUser, true);
+    //         return redirect()->intended('/home');
+    //     }
+    // }
 }

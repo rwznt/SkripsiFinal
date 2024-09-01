@@ -29,7 +29,7 @@ class HomeController extends Controller
         if (Auth::check()) {
             return redirect()->route('create');
         } else {
-            session(['fromTutorial' => true]);
+            session(['fromTutorial' => true, 'fromLogin' => true]);
             return redirect()->route('login');
         }
     }
