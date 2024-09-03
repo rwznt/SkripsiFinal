@@ -8,6 +8,7 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\NotificationController;
 
@@ -19,8 +20,8 @@ Route::get('register', [LoginController::class, 'register'])->name('register')->
 Route::post('register', [LoginController::class, 'register_action'])->name('register.action');
 Route::get('login', [LoginController::class, 'login'])->name('login')->middleware('guest');
 Route::post('login', [LoginController::class, 'login_action'])->name('login.action');
-Route::get('login/google', [LoginController::class, 'googleLogin']);
-Route::get('login/google/callback', [LoginController::class, 'googleCallback']);
+Route::get('auth/google', [GoogleController::class, 'redirect'])->name('google-auth');
+Route::get('auth/google/callback', [GoogleController::class, 'callback'])->name('google-callback');
 
 //Article related routes (public)
 Route::get('latest', [ArticleController::class, 'index'])->name('articles.index');
