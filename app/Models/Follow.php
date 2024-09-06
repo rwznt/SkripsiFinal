@@ -42,6 +42,13 @@ class Follow extends Model
         $follow->following_id = $user->id;
         $follow->save();
 
+        $notification = new Notification();
+        $notification->user_id = $user->id;
+        $notification->from_user_id = $authenticatedUser->id;
+        $notification->type = 'follow';
+        $notification->message = $authenticatedUser->name . ' started following you.';
+        $notification->save();
+
         return true;
     }
 

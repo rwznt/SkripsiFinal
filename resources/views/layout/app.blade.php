@@ -139,17 +139,40 @@
                             @endif
                         @endguest
                         @auth
+                        <li class="nav-item">
+                            <a class="nav-link bi bi-bell" href="{{ route('notifications') }}">
+                                Notifications
+                            </a>
+                        </li>
+                        {{-- <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle bi bi-bell" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Notifications
+                            </a>
+                            <ul class="dropdown-menu mymenu" aria-labelledby="notificationDropdown">
+                                @if(isset($notifications) && count($notifications) > 0)
+                                {{ dump($notifications) }}
+                                    @foreach($notifications as $notification)
+                                        <li>
+                                            <a href="#" class="dropdown-item">
+                                                {{ $notification->message }}
+                                                <span class="text-muted">{{ $notification->created_at->diffForHumans() }}</span>
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                @else
+                                    <li>No notifications</li>
+                                @endif
+                                <div class="dropdown-divider"></div>
+                                <a href="#" class="dropdown-item">See all notifications</a>
+                            </ul>
+                        </li> --}}
                             @if (Auth::user()->role == 'admin')
-                                <li class="nav-item">
-                                    <a class="nav-link bi bi-journal-text" href="{{ route('articles.index') }}">
-                                         Latest
-                                    </a>
-                                </li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle bi bi-journals" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                          Manage
                                     </a>
                                     <ul class="dropdown-menu mymenu" aria-labelledby="navbarDropdown">
+                                        <li><a class="nav-link bi bi-journal-text" href="{{ route('articles.index') }}">Latest</a></li>
                                         <li><a class="nav-link bi bi-journal-check" href="{{route('review')}}"> Review Article</a></li>
                                         <li><a class="nav-link bi bi-pen" href="{{ route('create') }}"> Create</a></li>
                                     </ul>
@@ -168,13 +191,16 @@
                                 </li>
                             @endif
                             @if (Auth::user()->role == 'user')
-                                <li class="nav-item">
-                                    <a class="nav-link bi bi-journal-text" href="{{ route('articles.index') }}">
-                                         Latest
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle bi bi-journals" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                         Articles
                                     </a>
-                                </li>
-                                <li class="nav-item {{ Request()->is('create') ? 'active' : '' }}">
-                                    <a class="nav-link bi bi-pen" href="{{ route('create') }}"> Create</a>
+                                    <ul class="dropdown-menu mymenu" aria-labelledby="navbarDropdown">
+                                        <li><a class="nav-link bi bi-journal-text" href="{{ route('articles.index') }}"> Latest</a></li>
+                                        <li> 
+                                            <a class="nav-link bi bi-pen" href="{{ route('create') }}"> Create</a>
+                                        </li>
+                                    </ul>
                                 </li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle bi bi-person" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

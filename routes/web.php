@@ -46,6 +46,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('password', [LoginController::class, 'password_action'])->name('password.action');
     Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 
+    Route::get('/notifications', [HomeController::class, 'notifications'])->name('notifications');
+    Route::get('notifications/MarkAsRead/{id}', 'NotificationController@MarkAsRead')->name('notifications.MarkAsRead');
     //Profile related routes
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
     Route::get('/editprofile', [ProfileController::class, 'edit'])->name('editprofile');

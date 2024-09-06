@@ -33,4 +33,15 @@ class HomeController extends Controller
             return redirect()->route('login');
         }
     }
+
+    public function notifications()
+    {
+        $title = "Notifications";
+        if(Auth::check()) {
+            $notifications = Auth::user()->notifications;
+        } else {
+            $notifications = [];
+        }
+        return view('pages.notifications', compact('title', 'notifications'));
+    }
 }

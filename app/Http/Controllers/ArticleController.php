@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Like;
 use Illuminate\Support\Str;
 use Mews\Purifier\Facades\Purifier;
+use App\Models\Notification;
+use App\Models\User;
 
 class ArticleController extends Controller
 {
@@ -54,9 +56,11 @@ class ArticleController extends Controller
 
         $isAdmin = $request->input('is_admin', false);
 
+        $authenticatedUser = auth()->user();
         $article = new Article();
         $article->category_id = $request->dropdown;
         $article->user_id = auth()->id();
+        $article->author = $authenticatedUser->name;
         $article->title = $request->title;
         $article->content = Purifier::clean($request->input('content'));
         $article->post_date = now()->format('Y-m-d');
@@ -65,7 +69,35 @@ class ArticleController extends Controller
         $article->is_admin = $isAdmin;
         $article->save();
 
+        $followers = $authenticatedUser->followers;
+        foreach ($followers as $follower) {
+            $this->createNotificationForFollower($follower, $article, 'newArticle', $article->author . " has created a new article.");
+        }
+
+        $admins = User::where('role', 'admin')->get();
+        foreach ($admins as $admin) {
+            $notification = new Notification();
+            $notification->user_id = $admin->id;
+            $notification->from_user_id = $article->user_id;
+            $notification->type = 'review';
+            $notification->at_article_id = $article->id;
+            $notification->message = "New article is needed to be reviewed";
+            $notification->save();
+        }
+
         return redirect()->route('articles.show', ['article' => $article->id])->with('success', 'New Article has been created!');
+    }
+
+    private function createNotificationForFollower($follower, $article, $type, $message)
+    {
+        $notification = new Notification();
+        $notification->user_id = $follower->id;
+        $notification->from_user_id = $article->user_id;
+        $notification->type = $type;
+        $notification->at_article_id = $article->id;
+        $notification->message = $message;
+        $notification->save();
+        return $notification;
     }
 
     public function edit($id)
@@ -149,6 +181,20 @@ class ArticleController extends Controller
         $article->reviewed = true;
         $article->save();
 
+        $authenticatedUser = auth()->user();
+        $notification = new Notification();
+        $notification->user_id = $article->user_id;
+        $notification->from_user_id = $authenticatedUser->id;
+        $notification->type = 'review';
+        $notification->at_article_id = $article->id;
+        $notification->message = "Your Article has been reviewed by admin " . $authenticatedUser->name;
+        $notification->save();
+
+        $followers = $authenticatedUser->followers;
+        foreach ($followers as $follower) {
+            $this->createNotificationForFollower($follower, $article, 'verify', $article->author . "'s article has been reviewed with score: " . $article->trustFactor);
+        }
+
         return redirect()->back()->with('success', 'Review updated successfully!');
     }
 
@@ -183,6 +229,15 @@ class ArticleController extends Controller
             $like->article_id = $article->id;
             $like->user_id = $userId;
             $like->save();
+
+            $authenticatedUser = auth()->user();
+            $notification = new Notification();
+            $notification->user_id = $article->user_id;
+            $notification->from_user_id = $authenticatedUser->id;
+            $notification->type = 'like';
+            $notification->at_article_id = $article->id;
+            $notification->message = "Your Article is liked by " . $authenticatedUser->name . " at " . $article->title;
+            $notification->save();
 
             $article->increment('likes_count');
 

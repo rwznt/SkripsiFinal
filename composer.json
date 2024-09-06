@@ -12,7 +12,7 @@
         "kreait/firebase-php": "^7.14",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
-        "laravel/socialite": "^5.15",
+        "laravel/socialite": "*",
         "laravel/tinker": "^2.7",
         "mews/purifier": "^3.4",
         "pusher/pusher-php-server": "^7.2"

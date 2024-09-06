@@ -21,7 +21,7 @@ class UserController extends Controller
 
         return view('user.account', compact('user', 'title', 'articles',
         'followerCount', 'followingCount', 'isOwnProfile',
-        'isFollowing', 'followers', 'following'));
+        'isFollowing'));
     }
 
     public function followList(User $user, Request $request)

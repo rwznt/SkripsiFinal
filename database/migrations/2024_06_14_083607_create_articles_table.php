@@ -27,6 +27,7 @@ return new class extends Migration
             $table->text('admin_comment')->nullable();
             $table->integer('likes_count')->default(0);
             $table->boolean('is_admin')->default(false);
+            $table->string('author');
             $table->timestamps();
         });
     }

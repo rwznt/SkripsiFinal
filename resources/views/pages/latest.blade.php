@@ -35,6 +35,7 @@
     @else
         <div class="list-group mt-4">
             @foreach ($articles as $article)
+            @if($article->reviewed)
                 <div class="list-group-item list-group-item-action">
                     <div class="d-flex align-items-start">
                         @if ($article->image)
@@ -53,6 +54,7 @@
                         </div>
                     </div>
                 </div>
+                @endif
             @endforeach
         </div>
 
