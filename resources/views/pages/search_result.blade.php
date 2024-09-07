@@ -3,6 +3,14 @@
 @section('title', 'Search Results')
 
 @section('content')
+
+<style>
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+</style>
+
     <div class="container">
         <h1 class="mt-4">Search Results @if (!empty($keyword)) for "{{ $keyword }}" @endif</h1>
 

@@ -21,7 +21,7 @@
                             <p class="mb-1">
                                 {{-- {{ Str::limit($article->content, 100) }} --}}
                                 @php
-                                    echo htmlspecialchars_decode(substr($article->content, 0, 100));
+                                    echo htmlspecialchars_decode(substr($article->content, 0, 70));
                                 @endphp
                             </p>
                             <small>Created at: {{ $article->created_at->setTimezone(config('app.timezone'))->format('M d, Y H:i:s') }}</small>

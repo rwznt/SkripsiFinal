@@ -22,6 +22,16 @@ class CommentController extends Controller
         $comment->user_id = auth()->id();
         $comment->content = $validatedData['content'];
         $comment->save();
+        
+        $authenticatedUser = auth()->user();
+        $notification = new Notification();
+        $notification->user_id = $comment->user_id;
+        $notification->from_user_id = $authenticatedUser->id;
+        $notification->type = 'review';
+        $notification->at_article_id = $comment->article_id;
+        $notification->message = "Your Article has been commented by " . $authenticatedUser->name . " at " . $article->title;
+        $notification->save();
+
 
         return redirect()->back()->with('success', 'Comment added successfully.');
     }
@@ -60,6 +70,15 @@ class CommentController extends Controller
         $reply->article_id = $parentComment->article_id;
         $reply->parent_id = $parentComment->id;
         $reply->save();
+
+        $authenticatedUser = auth()->user();
+        $notification = new Notification();
+        $notification->user_id = $parentComment->user_id;
+        $notification->from_user_id = $authenticatedUser->id;
+        $notification->type = 'review';
+        $notification->at_article_id = $parentComment->article_id;
+        $notification->message = "Your comment has been replied";
+        $notification->save();
 
         return redirect()->back()->with('success', 'Reply added successfully.');
     }

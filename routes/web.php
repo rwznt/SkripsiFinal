@@ -47,7 +47,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 
     Route::get('/notifications', [HomeController::class, 'notifications'])->name('notifications');
-    Route::get('notifications/MarkAsRead/{id}', 'NotificationController@MarkAsRead')->name('notifications.MarkAsRead');
+    Route::get('/notiications/mark-as-read-user/{id}', [NotificationController::class, 'MarkAsUser'])->name('read.user');
+    Route::get('/notiications/mark-as-read-article/{id}', [NotificationController::class, 'MarkAsArticle'])->name('read.article');
+
     //Profile related routes
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
     Route::get('/editprofile', [ProfileController::class, 'edit'])->name('editprofile');

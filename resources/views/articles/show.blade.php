@@ -50,6 +50,11 @@
         border: 1px solid green;
         border-radius: 5px;
     }
+    .article-title {
+        font-size: 3rem;
+        font-weight: bold;
+        word-break: break-word;
+    }
 </style>
 
 <div class="container">

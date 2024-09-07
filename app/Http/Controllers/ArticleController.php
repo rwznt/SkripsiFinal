@@ -192,7 +192,7 @@ class ArticleController extends Controller
 
         $followers = $authenticatedUser->followers;
         foreach ($followers as $follower) {
-            $this->createNotificationForFollower($follower, $article, 'verify', $article->author . "'s article has been reviewed with score: " . $article->trustFactor);
+            $this->createNotificationForFollower($follower, $article, 'verify', $article->title . " from " . $article->author  . " has been reviewed. Check it out");
         }
 
         return redirect()->back()->with('success', 'Review updated successfully!');
