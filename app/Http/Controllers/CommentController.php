@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Comment;
 use App\Models\Notification;
+use App\Models\Article;
 use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
@@ -22,8 +23,10 @@ class CommentController extends Controller
         $comment->user_id = auth()->id();
         $comment->content = $validatedData['content'];
         $comment->save();
-        
+
+        $article = Article::find($comment->article_id);
         $authenticatedUser = auth()->user();
+
         $notification = new Notification();
         $notification->user_id = $comment->user_id;
         $notification->from_user_id = $authenticatedUser->id;
@@ -71,13 +74,14 @@ class CommentController extends Controller
         $reply->parent_id = $parentComment->id;
         $reply->save();
 
+        $article = Article::find($parentComment->article_id);
         $authenticatedUser = auth()->user();
         $notification = new Notification();
         $notification->user_id = $parentComment->user_id;
         $notification->from_user_id = $authenticatedUser->id;
         $notification->type = 'review';
         $notification->at_article_id = $parentComment->article_id;
-        $notification->message = "Your comment has been replied";
+        $notification->message = "Your comment has been replied by " . $authenticatedUser->name . " at " . $article->title;
         $notification->save();
 
         return redirect()->back()->with('success', 'Reply added successfully.');

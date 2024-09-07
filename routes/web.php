@@ -49,6 +49,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/notifications', [HomeController::class, 'notifications'])->name('notifications');
     Route::get('/notiications/mark-as-read-user/{id}', [NotificationController::class, 'MarkAsUser'])->name('read.user');
     Route::get('/notiications/mark-as-read-article/{id}', [NotificationController::class, 'MarkAsArticle'])->name('read.article');
+    Route::delete('notifications/{id}', [NotificationController::class, 'destroy'])->name('notifications.destroy.one');
+    Route::delete('notifications', [NotificationController::class, 'destroyAll'])->name('notifications.destroy.all');
 
     //Profile related routes
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile');

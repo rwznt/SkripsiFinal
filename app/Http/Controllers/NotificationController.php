@@ -26,4 +26,20 @@ class NotificationController extends Controller
         // Redirect to articles.show with the at_article_id
         return redirect()->route('articles.show', ['article' => $notification->at_article_id]);
     }
+
+    public function destroy($id)
+    {
+        $notification = Notification::find($id);
+        $notification->delete();
+        return back()->with('success', 'Notification deleted successfully.');
+    }
+    
+    public function destroyAll()
+    {
+        $notifications = Notification::where('read', 1)->get();
+        foreach ($notifications as $notification) {
+            $notification->delete();
+        }
+        return back()->with('success', 'All read notifications deleted successfully.');
+    }
 }
