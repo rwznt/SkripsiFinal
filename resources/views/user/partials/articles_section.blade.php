@@ -1,3 +1,10 @@
+<style>
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+</style>
+
 <div class="mt-4">
     <h2 class="text-center mb-4">Articles Created by {{ $user->name }}</h2>
 

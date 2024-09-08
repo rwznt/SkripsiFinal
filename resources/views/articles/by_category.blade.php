@@ -4,6 +4,12 @@
     .article-category {
         margin-top: 10px;
     }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
 </style>
 
 @section('content')

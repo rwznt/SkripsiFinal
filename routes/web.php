@@ -11,6 +11,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\ImageController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -67,6 +68,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/articles/{id}/edit', [ArticleController::class, 'edit'])->name('articles.edit');
     Route::match(['get', 'put'], '/articles/{article}', [ArticleController::class, 'update'])->name('articles.update');
     Route::delete('/article/{id}', [ArticleController::class, 'destroy'])->name('articles.destroy');
+    Route::post('/upload-image', [ImageController::class,'uploadImage']);
 
     //Comment related routes
     Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');

@@ -28,6 +28,11 @@ return new class extends Migration
             $table->integer('likes_count')->default(0);
             $table->boolean('is_admin')->default(false);
             $table->string('author');
+            $table->string('information_source');
+            $table->string('source_link')->nullable();
+            $table->text('source_text')->nullable();
+            $table->string('source_file')->nullable();
+            $table->string('article_type')->default('article'); 
             $table->timestamps();
         });
     }

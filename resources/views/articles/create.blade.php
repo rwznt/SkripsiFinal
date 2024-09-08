@@ -124,6 +124,40 @@ $isAdmin = Auth::user()->isAdmin();
                 <input type="file" name="image" accept="image/*" id="image" onchange="previewImage(event)" class="form-control-file">
             </label>
         </div>
+        
+        @if ($isAdmin)
+        <div class="form-group">
+            <label for="article-type">Article Type:</label>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="article-type" id="article-type-article" value="article" checked>
+                <label class="form-check-label" for="article-type-article">Article</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="article-type" id="article-type-development" value="development">
+                <label class="form-check-label" for="article-type-development">Articreate Development</label>
+            </div>
+        </div>
+        @endif
+
+        <div class="form-group information">
+            <label for="information-source">Information Source:</label>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="information-source" id="source-others" value="others" checked>
+                <label class="form-check-label" for="source-others">From Others</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="information-source" id="source-personal" value="personal">
+                <label class="form-check-label" for="source-personal">From Personal</label>
+            </div>
+            <div id="source-others-input" style="display: block;">
+                <input type="text" id="source-link" name="source-link" class="form-control" placeholder="Enter link">
+            </div>
+            <div id="source-personal-input" style="display: none;">
+                <input type="text" id="source-text" name="source-text" class="form-control" placeholder="Enter text">
+                <label for="source-file">Upload file (video, mp3, or image):</label>
+                <input type="file" id="source-file" name="source-file" accept="video/*, audio/*, image/*" class="form-control-file">
+            </div>
+        </div>
 
         <div class="form-group">
             <label for="content">Content:</label>
@@ -154,7 +188,53 @@ $isAdmin = Auth::user()->isAdmin();
               ['para', ['ul', 'ol', 'paragraph']],
               ['height', ['height']],
               ['insert', ['link', 'picture', 'video']]
-            ]
+            ],
+            // callbacks: {
+            //     onImageUpload: function(files, editor, welEditable) {
+            //         console.log('onImageUpload callback function triggered');
+            //         var formData = new FormData();
+            //         formData.append('image', files[0]);
+            //         formData.append('_token', '{{ csrf_token() }}'); // Add CSRF token
+                
+            //         $.ajax({
+            //             url: '/upload-image',
+            //             type: 'POST',
+            //             data: formData,
+            //             cache: false,
+            //             contentType: false,
+            //             processData: false,
+            //             success: function(data) {
+            //                 console.log('Image uploaded successfully:', data);
+            //                 if (data.url) {
+            //                     editor.summernote('editor.insertImage', data.url);
+            //                 } else {
+            //                     console.error('Error uploading image: no URL returned');
+            //                 }
+            //             },
+            //             error: function(xhr, status, error) {
+            //                 console.error('Error uploading image:', error);
+            //             }
+            //         });
+            //     }
+            // }
+        });
+
+        $('input[name="information-source"]').on('change', function() {
+            if ($(this).val() == 'others') {
+                $('#source-others-input').show();
+                $('#source-personal-input').hide();
+            } else {
+                $('#source-others-input').hide();
+                $('#source-personal-input').show();
+            }
+        });
+
+        $('input[name="article-type"]').on('change', function() {
+            if ($(this).val() == 'development') {
+                $('.information').hide();
+            } else {
+                $('.information').show();
+            }
         });
     });
 

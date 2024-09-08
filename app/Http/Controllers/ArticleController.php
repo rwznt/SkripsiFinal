@@ -41,6 +41,11 @@ class ArticleController extends Controller
             'title' => 'required|max:255|min:10',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:10240',
             'content' => 'required|min:150',
+            'article-type' => 'required',
+            'information-source' => 'required_if:article-type,!=,development',
+            'source-link' => 'required_if:article-type,!=,development|required_if:information-source,other',
+            'source-text' => 'required_if:article-type,!=,development|required_if:information-source,personal',
+            'source-file' => 'required_if:article-type,!=,development|required_if:information-source,personal|mimes:video/*,audio/*,image/*',
         ]);
 
         if ($request->hasFile('image')) {
@@ -67,6 +72,21 @@ class ArticleController extends Controller
         $article->post_month = now()->format('F');
         $article->image = $image_path;
         $article->is_admin = $isAdmin;
+
+        if ($request->input('information-source') == 'others') {
+            $article->information_source = 'others';
+            $article->source_link = $request->input('source-link');
+        } else {
+            $article->information_source = 'personal';
+            $article->source_text = $request->input('source-text');
+            if ($request->hasFile('source-file')) {
+                $source_file = $request->file('source-file');
+                $source_file_name = hexdec(uniqid()) . '.' . $source_file->getClientOriginalExtension();
+                $source_file->move(public_path('files'), $source_file_name);
+                $article->source_file = 'files/' . $source_file_name;
+            }
+        }
+
         $article->save();
 
         $followers = $authenticatedUser->followers;
